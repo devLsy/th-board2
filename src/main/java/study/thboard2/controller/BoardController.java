@@ -17,9 +17,9 @@ public class BoardController {
      * 게시글 목록 조회
      * @return
      */
-    @GetMapping("/")
+    @GetMapping("")
     public ModelAndView list() {
-        ModelAndView mv = new ModelAndView("pages/list");
+        ModelAndView mv = new ModelAndView("pages/main");
         return mv;
     }
 }
