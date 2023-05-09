@@ -14,12 +14,22 @@ import org.springframework.web.servlet.ModelAndView;
 public class BoardController {
 
     /**
-     * 게시글 목록 조회
+     * 게시글 목록
      * @return
      */
     @GetMapping("")
     public ModelAndView list() {
         ModelAndView mv = new ModelAndView("pages/main");
+        return mv;
+    }
+
+    /**
+     * 게시글 상세
+     * @return
+     */
+    @GetMapping("/detail")
+    public ModelAndView detail() {
+        ModelAndView mv = new ModelAndView("pages/detail");
         return mv;
     }
 }
