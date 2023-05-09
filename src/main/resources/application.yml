@@ -1,11 +1,20 @@
 server:
-  port: 9090
+  port: 8080
+
+file.path: D:/upload/
 
 mybatis:
   mapper-locations: mapper/**/*.xml
   type-aliases-package: study.thboard2.domain.vo
   configuration:
     jdbc-type-for-null: null
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB
+      enabled: true
 
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
