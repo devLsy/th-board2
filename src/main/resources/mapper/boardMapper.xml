@@ -20,97 +20,88 @@
 <!--</sql>-->
 
     <!--게시글 목록 조회-->
-<!--    <select id="" parameterType="map" resultType="BoardVo">-->
-<!--        /* 게시글 목록 조회 */-->
-<!--        SELECT-->
-<!--	         ,-->
-<!--	         ,-->
-<!--	         ,-->
-<!--	         ,-->
-<!--	         ,-->
-<!--	         ,-->
-<!--	      FROM-->
-<!--              (SELECT /*+ */-->
-
-<!--                     ,-->
-<!--                     ,-->
-<!--                     ,-->
-<!--                     ,-->
-<!--                     ,-->
-<!--                     ,-->
-<!--                     ,-->
-<!--                  FROM-->
-<!--                 WHERE 1=1-->
-<!--                   AND-->
+    <select id="selectBoardList" parameterType="map" resultType="BoardVo">
+        /* 게시글 목록 조회 */
+        SELECT T1.boardNo
+	         , T1.title
+	         , T1.writer
+	         , T1.content
+	         , T1.useYn
+	         , T1.regDate
+	         , T1.modDate
+	      FROM
+               ( SELECT BOARD_NO
+                      , TITLE
+                      , CONTENT
+                      , WRITER
+                      , USE_YN
+                      , REG_DATE
+                      , MOD_DATE
+                   FROM BOARD_NO
+                  WHERE 1=1
 <!--                   <include refid="appendParam"/>-->
-<!--                   AND-->
-<!--              )T1-->
-<!--         WHERE-->
-<!--    </select>-->
+                                    ) T1
+    </select>
 
     <!--게시글 전체 카운트-->
-<!--    <select id="" parameterType="map" resultType="int">-->
-<!--        SELECT COUNT(*)-->
-<!--          FROM-->
-<!--         WHERE 1=1-->
-
-<!--    </select>-->
+    <select id="selectBoardCnt" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+          FROM BOARD_INFO
+    </select>
 
     <!--게시글 작성-->
-<!--    <insert id="" parameterType="BoardVo">-->
-<!--        <selectKey keyProperty="" resultType="" order="">-->
-
-<!--        </selectKey>-->
-<!--        /* 게시글 작성 */-->
-<!--        INSERT INTO-->
-<!--            (-->
-
-<!--              ,-->
-<!--              ,-->
-<!--              ,-->
-<!--              ,-->
-<!--            )-->
-<!--        VALUES-->
-<!--            (-->
-
-<!--              ,-->
-<!--              ,-->
-<!--              ,-->
-<!--              ,-->
-<!--            )-->
-<!--    </insert>-->
+    <insert id="insertBoard" parameterType="BoardVo">
+        <selectKey keyProperty="boardNo" resultType="Long" order="BEFORE">
+            SELECT BOARD_NO_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        /* 게시글 작성 */
+        INSERT INTO BOARD_INFO
+            (
+                BOARD_NO
+              , TITLE
+              , CONTENT
+              , WRITER
+            )
+        VALUES
+            (
+                #{boardNo}
+              , #{title}
+              , #{content}
+              , #{writer}
+            )
+    </insert>
 
     <!--게시글 상세-->
-<!--    <select id="" parameterType="map" resultType="BoardVo">-->
-<!--        /* 게시글 상세 조회 */-->
-<!--        SELECT-->
-<!--             ,-->
-<!--             ,-->
-<!--             ,-->
-<!--             ,-->
-<!--             ,-->
-<!--          FROM-->
-<!--         WHERE 1=1-->
-<!--           AND-->
-<!--    </select>-->
+    <select id="selectBoardDetail" parameterType="map" resultType="BoardVo">
+        /* 게시글 상세 조회 */
+        SELECT BOARD_NO
+             , TITLE
+             , CONTENT
+             , WRITER
+             , USE_YN
+             , REG_DATE
+             , MOD_DATE
+          FROM BOARD_INFO
+         WHERE 1=1
+           AND BOARD_NO = #{boardNo}
+    </select>
 
-    <!--게시글 수정-->
-<!--    <update id="" parameterType="BoardVo">-->
-<!--        /* 게시글 수정 */-->
-<!--        UPDATE BOARD-->
-<!--           SET-->
-<!--             ,-->
-<!--             ,-->
-<!--         WHERE-->
-<!--    </update>-->
+        <!--게시글 수정-->
+    <update id="updateBoard" parameterType="BoardVo">
+        /* 게시글 수정 */
+        UPDATE BOARD_INFO
+           SET TITLE = #{title}
+             , CONTENT = #{content}
+             , MOD_DATE = SYSDATE
+         WHERE BOARD_NO = #{boardNo}
+    </update>
 
     <!--게시글 삭제-->
-<!--    <update id="" parameterType="map">-->
-<!--        /* 게시글 삭제 */-->
-<!--        UPDATE-->
-<!--           SET-->
-<!--             ,-->
-<!--         WHERE-->
-<!--    </update>-->
+    <update id="deleteBoard" parameterType="map">
+        /* 게시글 삭제 */
+        UPDATE BOARD_INFO
+           SET USE_YN = 'Y'
+         WHERE BOARD_NO = #{boardNo}
+    </update>
 
 </mapper>
