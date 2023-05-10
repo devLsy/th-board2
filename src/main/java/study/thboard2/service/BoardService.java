@@ -3,6 +3,7 @@ package study.thboard2.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import study.thboard2.domain.vo.BoardVo;
 import study.thboard2.mapper.BoardMapper;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BoardService {
 
     private final BoardMapper boardMapper;
@@ -19,7 +21,7 @@ public class BoardService {
      * 게시글 목록 조회
      * @return
      */
-    public List<BoardVo> getBoardList() {
+    public List<BoardVo> getBoardList() throws Exception{
         return boardMapper.selectBoardList();
     }
 
@@ -27,7 +29,7 @@ public class BoardService {
      * 게시글 전체 카운트
      * @return
      */
-    public int getBoardCnt() {
+    public int getBoardCnt() throws Exception{
         return boardMapper.selectBoardCnt();
     }
 
@@ -36,7 +38,7 @@ public class BoardService {
      * @param BoardNo
      * @return
      */
-    public BoardVo selectBoardDetail(Integer BoardNo) {
+    public BoardVo selectBoardDetail(Integer BoardNo) throws Exception{
         return boardMapper.selectBoardDetail(BoardNo);
     }
 
@@ -44,7 +46,8 @@ public class BoardService {
      * 게시글 작성
      * @param boardVo
      */
-    public void regBoard(BoardVo boardVo) {
+    @Transactional
+    public void regBoard(BoardVo boardVo) throws Exception{
         boardMapper.insertBoard(boardVo);
     }
 
@@ -52,7 +55,8 @@ public class BoardService {
      * 게시글 수정
      * @param boardVo
      */
-    public void modifyBoard(BoardVo boardVo) {
+    @Transactional
+    public void modifyBoard(BoardVo boardVo) throws Exception{
         boardMapper.updateBoard(boardVo);
     }
 
@@ -60,7 +64,8 @@ public class BoardService {
      * 게시글 삭제
      * @param boardNo
      */
-    public void deleteBoard(Integer boardNo) {
+    @Transactional
+    public void deleteBoard(Integer boardNo) throws Exception{
         boardMapper.deleteBoard(boardNo);
     }
 
