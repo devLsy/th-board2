@@ -22,13 +22,13 @@
     <!--게시글 목록 조회-->
     <select id="selectBoardList" parameterType="map" resultType="BoardVo">
         /* 게시글 목록 조회 */
-        SELECT T1.boardNo
-	         , T1.title
-	         , T1.writer
-	         , T1.content
-	         , T1.useYn
-	         , T1.regDate
-	         , T1.modDate
+        SELECT T1.BOARD_NO AS boardNo
+	         , T1.TITLE AS title
+	         , T1.CONTENT AS content
+	         , T1.WRITER AS writer
+	         , T1.USE_YN AS useYn
+	         , T1.REG_DATE AS regDate
+	         , T1.MOD_DATE AS modDate
 	      FROM
                ( SELECT BOARD_NO
                       , TITLE
@@ -37,8 +37,9 @@
                       , USE_YN
                       , REG_DATE
                       , MOD_DATE
-                   FROM BOARD_NO
+                   FROM BOARD_INFO
                   WHERE 1=1
+                    AND USE_YN = 'Y'
 <!--                   <include refid="appendParam"/>-->
                                     ) T1
     </select>
@@ -51,7 +52,7 @@
 
     <!--게시글 작성-->
     <insert id="insertBoard" parameterType="BoardVo">
-        <selectKey keyProperty="boardNo" resultType="Long" order="BEFORE">
+        <selectKey keyProperty="boardNo" resultType="INTEGER" order="BEFORE">
             SELECT BOARD_NO_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         /* 게시글 작성 */
@@ -100,7 +101,7 @@
     <update id="deleteBoard" parameterType="map">
         /* 게시글 삭제 */
         UPDATE BOARD_INFO
-           SET USE_YN = 'Y'
+           SET USE_YN = 'N'
          WHERE BOARD_NO = #{boardNo}
     </update>
 

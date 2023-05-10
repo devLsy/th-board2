@@ -36,7 +36,7 @@ public class BoardService {
      * @param BoardNo
      * @return
      */
-    public BoardVo selectBoardDetail(Long BoardNo) {
+    public BoardVo selectBoardDetail(Integer BoardNo) {
         return boardMapper.selectBoardDetail(BoardNo);
     }
 
@@ -60,7 +60,7 @@ public class BoardService {
      * 게시글 삭제
      * @param boardNo
      */
-    public void deleteBoard(Long boardNo) {
+    public void deleteBoard(Integer boardNo) {
         boardMapper.deleteBoard(boardNo);
     }
 

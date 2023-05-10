@@ -17,7 +17,7 @@ public interface BoardMapper {
     int selectBoardCnt();
 
     /*게시글 상세*/
-    BoardVo selectBoardDetail(@Param("boardNo") Long boardNo);
+    BoardVo selectBoardDetail(@Param("boardNo") Integer boardNo);
 
     /*게시글 작성*/
     void insertBoard(BoardVo boardVo);
@@ -26,5 +26,5 @@ public interface BoardMapper {
     void updateBoard(BoardVo boardVo);
 
     /*게시글 삭제*/
-    void deleteBoard(@Param("boardNo") Long boardNo);
+    void deleteBoard(@Param("boardNo") Integer boardNo);
 }
