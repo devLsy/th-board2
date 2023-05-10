@@ -21,7 +21,7 @@ class BoardServiceTest {
     @Commit
     @DisplayName("게시글목록_조회")
     @Disabled
-    void getBoardList() {
+    void getBoardList() throws Exception {
         boardService.getBoardList();
     }
 
@@ -29,7 +29,7 @@ class BoardServiceTest {
     @Commit
     @DisplayName("게시글목록_카운트")
     @Disabled
-    void getBoardCnt() {
+    void getBoardCnt() throws Exception {
         boardService.getBoardCnt();
     }
 
@@ -37,7 +37,7 @@ class BoardServiceTest {
     @Commit
     @DisplayName("게시글_등록")
     @Disabled
-    void regBoard() {
+    void regBoard() throws Exception {
         BoardVo boardVo = new BoardVo();
         boardVo.setTitle("게시판으로 기초를 다지자");
         boardVo.setContent("게시판 반복 개발");
@@ -49,19 +49,19 @@ class BoardServiceTest {
     @Commit
     @DisplayName("게시글_수정")
     @Disabled
-    void modifyBoard() {
-        BoardVo boardInfo = boardService.selectBoardDetail(1);
-        boardInfo.setBoardNo(boardInfo.getBoardNo());
-        boardInfo.setTitle("나라말싸미");
-        boardInfo.setContent("궁구게");
-        boardInfo.setWriter("한비광");
-        boardService.modifyBoard(boardInfo);
+    void modifyBoard() throws Exception {
+        BoardVo boardVo = new BoardVo();
+        boardVo.setBoardNo(1);
+        boardVo.setTitle("나라말싸미");
+        boardVo.setContent("궁구게");
+        boardVo.setWriter("한비광");
+        boardService.modifyBoard(boardVo);
     }
 
     @Test@Commit
     @DisplayName("게시글_삭제")
     @Disabled
-    void deleteBoard() {
+    void deleteBoard() throws Exception {
         BoardVo boardVo = new BoardVo();
         boardVo.setBoardNo(1);
         boardService.deleteBoard(boardVo.getBoardNo());
