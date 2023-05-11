@@ -40,7 +40,9 @@ public class BoardService {
      * 게시글 상세
      * @param BoardNo
      * @return
+     * @throws Exception
      */
+
     public BoardVo selectBoardDetail(Integer BoardNo) throws Exception{
         return boardMapper.selectBoardDetail(BoardNo);
     }

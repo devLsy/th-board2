@@ -11,6 +11,6 @@ public class FileVo extends CommonVo{
     private String fileOrgName;         //원본파일명
     private String filePath;            //파일경로
     private int fileSize;           //파일용량
-    private String delYn;               //삭제여부
+    private char delYn;               //삭제여부
     
 }

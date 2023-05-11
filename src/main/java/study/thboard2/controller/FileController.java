@@ -55,7 +55,7 @@ public class FileController {
         String encodedFileName = UriUtils.encode(fileDetail.getFileOrgName(), StandardCharsets.UTF_8);
         //파일 다운로드 대화상자 표시
         String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
-        
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);
