@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import study.thboard2.domain.vo.BoardVo;
+import study.thboard2.domain.vo.SearchVo;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public interface BoardMapper {
 
     /*게시글 목록 조회*/
-    List<BoardVo> selectBoardList();
+    List<BoardVo> selectBoardList(SearchVo searchVo);
 
     /*게시글 전체 카운트*/
     int selectBoardCnt();

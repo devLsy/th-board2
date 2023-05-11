@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.thboard2.domain.vo.BoardVo;
+import study.thboard2.domain.vo.SearchVo;
 import study.thboard2.mapper.BoardMapper;
 
 import java.util.List;
@@ -19,10 +20,12 @@ public class BoardService {
 
     /**
      * 게시글 목록 조회
+     * @param searchVo
      * @return
+     * @throws Exception
      */
-    public List<BoardVo> getBoardList() throws Exception{
-        return boardMapper.selectBoardList();
+    public List<BoardVo> getBoardList(SearchVo searchVo) throws Exception{
+        return boardMapper.selectBoardList(searchVo);
     }
 
     /**

@@ -22,7 +22,7 @@
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 쓰기</h3></div>
                         <div class="card-body">
-                            <form name="frm" method="post">
+                            <form name="frm" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="writer" value="슈퍼맨">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -35,6 +35,7 @@
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control h-25" rows="10" id="content" name="content"></textarea>
                                     <label for="content">내용</label>
+                                    <input type="file" name="files" id="files" multiple="multiple">
                                 </div>
                                     <button type="submit" class="btn btn-success">등록</button>
                                     <a th:href="@{/}" class="btn btn-info">목록</a>
@@ -57,7 +58,7 @@
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 수정</h3></div>
                         <div class="card-body">
                             <form name="frm" action="/mod" method="post">
-                                <input type="hidden" th:value="${info?.boardNo}">
+                                <input type="hidden" name="boardNo" th:value="${boardNo}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3 mb-md-0">
@@ -70,6 +71,15 @@
                                     <textarea class="form-control h-25" rows="10" id="content" name="content" th:text="${info?.content}"></textarea>
                                     <label for="content">내용</label>
                                 </div>
+
+                                <!--이미지 미리보기-->
+                                <div th:each="file : ${files} ">
+                                    <a th:href="|/download/${file.fileNo}|" th:title="${file.fileOrgName}">
+                                        <img th:src="|/images/${file.fileNo}|" width="150" height="150">
+                                        <p th:text="${file.fileOrgName}"></p>
+                                    </a>
+                                </div>
+
                                     <button type="submit" class="btn btn-success">수정</button>
                                     <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>

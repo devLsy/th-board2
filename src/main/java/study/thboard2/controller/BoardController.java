@@ -1,14 +1,18 @@
 package study.thboard2.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import study.thboard2.domain.vo.BoardVo;
+import study.thboard2.domain.vo.FileVo;
+import study.thboard2.domain.vo.SearchVo;
 import study.thboard2.service.BoardService;
+import study.thboard2.service.FileService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -18,17 +22,19 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final FileService fileService;
 
     /**
      * 게시글 목록
      * @return
      */
     @GetMapping("")
-    public ModelAndView list() {
+    public ModelAndView list(@ModelAttribute SearchVo searchVo) {
         ModelAndView mv = new ModelAndView("pages/main");
 
         try {
-            List<BoardVo> boardList = boardService.getBoardList();
+            List<BoardVo> boardList = boardService.getBoardList(searchVo);
+            mv.addObject("search", searchVo);
             mv.addObject("list", boardList);
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
@@ -48,8 +54,11 @@ public class BoardController {
         if(boardNo != null) {
             try {
                 BoardVo boardInfo = boardService.selectBoardDetail(boardNo);
+                if(boardInfo != null) mv.addObject("info", boardInfo);
+
+                List<FileVo> fileList = fileService.getFileList(boardNo);
                 mv.addObject("boardNo", boardNo);
-                mv.addObject("info", boardInfo);
+                mv.addObject("files", fileList);
             } catch (Exception e) {
                 log.info("Exception => [{}] ", e.getMessage());
             }
@@ -60,12 +69,16 @@ public class BoardController {
     /**
      * 게시글 등록 처리
      * @param boardVo
+     * @param files
      * @return
      */
     @PostMapping("/reg")
-    public String reg(@ModelAttribute BoardVo boardVo) {
+    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files) {
         try {
             boardService.regBoard(boardVo);
+            fileService.saveFile(files, boardVo.getBoardNo());
+        } catch (IOException io) {
+            log.info("Exception => [{}] ", io.getMessage());
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }
@@ -92,6 +105,7 @@ public class BoardController {
      * @param boardNo
      * @return
      */
+    @PostMapping("/del")
     public String del(@RequestParam Integer boardNo) {
         try {
             boardService.deleteBoard(boardNo);

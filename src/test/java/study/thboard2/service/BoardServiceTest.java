@@ -48,13 +48,13 @@ class BoardServiceTest {
     @Test
     @Commit
     @DisplayName("게시글_수정")
-    @Disabled
+//    @Disabled
     void modifyBoard() throws Exception {
         BoardVo boardVo = new BoardVo();
         boardVo.setBoardNo(1);
-        boardVo.setTitle("나라말싸미");
-        boardVo.setContent("궁구게");
-        boardVo.setWriter("한비광");
+        boardVo.setTitle("우유");
+        boardVo.setContent("우유 맛있어");
+        boardVo.setWriter("밀크");
         boardService.modifyBoard(boardVo);
     }
 
