@@ -43,7 +43,7 @@ public class UserService {
      */
     public String login(String userId, String userPassword) {
         UserVo userInfo = userMapper.selectByUserId(userId);
-        return (userInfo != null) ? userInfo.getUserId() : null;
+        return (userInfo != null && userInfo.getUserPassword().equals(userPassword)) ? userInfo.getUserId() : "none";
     }
 
     /**

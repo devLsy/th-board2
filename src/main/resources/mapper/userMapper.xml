@@ -39,7 +39,7 @@
         INSERT INTO USER_INFO
             (
                 USER_NO                 /* 사용자 순번 */
-              , userId                  /* 사용자 아이디 */
+              , USER_ID                 /* 사용자 아이디 */
               , USER_PASSWORD           /* 사용자 비밀번호 */
               , USER_NAME               /* 사용자명 */
               , USER_EMAIL              /* 사용자 이메일 */

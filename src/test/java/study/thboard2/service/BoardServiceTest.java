@@ -22,7 +22,7 @@ class BoardServiceTest {
     @DisplayName("게시글목록_조회")
     @Disabled
     void getBoardList() throws Exception {
-        boardService.getBoardList();
+//        boardService.getBoardList();
     }
 
     @Test

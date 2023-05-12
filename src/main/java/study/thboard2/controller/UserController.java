@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import study.thboard2.domain.vo.UserVo;
 import study.thboard2.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -26,9 +24,9 @@ public class UserController {
      */
     @GetMapping("/login")
     public String loginForm(HttpSession session) {
-        String userId = String.valueOf(session.getAttribute("userId"));
-        log.info("stored session id =[{}]", userId);
-        return (userId != null) ? "redirect:/" : "/login";
+        String id = (String) session.getAttribute("id");
+        log.info("stored session id =[{}]", id);
+        return id != null ? "redirect:/" : "pages/login" ;
     }
 
     /**
@@ -42,7 +40,22 @@ public class UserController {
     public String login(@RequestParam String userId,
                         @RequestParam String userPassword,
                         HttpSession session) {
+
         String id = userService.login(userId, userPassword);
-        return id != null ? "redirect:/" : "/login";
+        if(id == "none") return "redirect:/login";
+
+        session.setAttribute("id", id);
+        return "redirect:/";
+    }
+
+    /**
+     * 로그아웃 처리
+     * @param session
+     * @return
+     */
+    @PostMapping("logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }
