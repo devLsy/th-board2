@@ -19,14 +19,14 @@
                          , T1.REPLY_NO AS replyNo
                          , T1.BOARD_NO AS boardNo
                          , T1.REPLY_CONTENT AS replyContent
-                         , T1.REPLY_WRITER AS replyWriter
+                         , T1.USER_ID AS userId
                          , T1.REG_DATE AS regDate
                          , T1.MOD_DATE AS modDate
                       FROM
                               ( SELECT REPLY_NO
                                      , BOARD_NO
                                      , REPLY_CONTENT
-                                     , REPLY_WRITER
+                                     , USER_ID
                                      , REG_DATE
                                      , MOD_DATE
                                   FROM REPLY_INFO
@@ -44,7 +44,7 @@
           FROM REPLY_INFO
          WHERE BOARD_NO = #{boardNo}
     </select>
-    
+
     <!--댓글 작성-->
     <insert id="insertReply" parameterType="ReplyVo">
         <selectKey keyProperty="replyNo" resultType="INTEGER" order="BEFORE">
@@ -56,7 +56,7 @@
                 REPLY_NO
               , BOARD_NO
               , REPLY_CONTENT
-              , REPLY_WRITER
+              , USER_ID
               , REG_DATE
             )
         VALUES
@@ -64,7 +64,7 @@
                 #{replyNo}
               , #{boardNo}
               , #{replyContent}
-              , #{replyWriter}
+              , #{userId}
               , SYSDATE
             )
     </insert>
@@ -75,7 +75,7 @@
         SELECT REPLY_NO AS replyNo
              , BOARD_NO AS boardNo
              , REPLY_CONTENT AS replyContent
-             , REPLY_WRITER AS replyWriter
+             , USER_ID AS userId
              , REG_DATE AS regDate
              , MOD_DATE AS modDate
           FROM REPLY_INFO

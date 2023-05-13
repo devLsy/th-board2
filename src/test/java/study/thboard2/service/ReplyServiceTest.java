@@ -42,7 +42,7 @@ class ReplyServiceTest {
         ReplyVo replyDetail = replyService.getReplyDetail(1, 2);
         Assertions.assertEquals(1, replyDetail.getReplyNo());
     }
-
+    
     @Test
     @Commit
     @DisplayName("등록")//성공
@@ -50,9 +50,9 @@ class ReplyServiceTest {
     void regReply() {
         ReplyVo replyVo = new ReplyVo();
         replyVo.setReplyNo(2);
-        replyVo.setBoardNo(49156);
+        replyVo.setBoardNo(49159);
         replyVo.setReplyContent("첫번 째 댓글 테스트");
-        replyVo.setReplyWriter("admin");
+        replyVo.setUserId("lsy");
         replyService.regReply(replyVo);
     }
 
