@@ -42,7 +42,7 @@ class ReplyServiceTest {
         ReplyVo replyDetail = replyService.getReplyDetail(1, 2);
         Assertions.assertEquals(1, replyDetail.getReplyNo());
     }
-    
+
     @Test
     @Commit
     @DisplayName("등록")//성공
