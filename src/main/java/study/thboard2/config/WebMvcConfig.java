@@ -9,6 +9,7 @@ import study.thboard2.common.interceptor.LoginInterceptor;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
+    //인터셉터
     public void addInterceptors(InterceptorRegistry registry) {
         LoginInterceptor loginInterceptor = new LoginInterceptor();
         registry.addInterceptor(loginInterceptor)

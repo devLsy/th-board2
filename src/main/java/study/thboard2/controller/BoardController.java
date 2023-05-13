@@ -6,12 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import study.thboard2.domain.vo.BoardVo;
-import study.thboard2.domain.vo.CommonVo;
-import study.thboard2.domain.vo.FileVo;
-import study.thboard2.domain.vo.PaginationInfo;
+import study.thboard2.domain.vo.*;
 import study.thboard2.service.BoardService;
 import study.thboard2.service.FileService;
+import study.thboard2.service.ReplyService;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +21,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ReplyService replyService;
     private final FileService fileService;
 
     /**
@@ -66,8 +65,11 @@ public class BoardController {
         if(boardNo != null) {
             try {
                 BoardVo boardInfo = boardService.selectBoardDetail(boardNo);
-                if(boardInfo != null) mv.addObject("info", boardInfo);
-
+                List<ReplyVo> replyList = replyService.getReplyList(boardNo);
+                if (boardInfo != null) {
+                    mv.addObject("info", boardInfo);
+                    mv.addObject("replyList", replyList);
+                }
                 List<FileVo> fileList = fileService.getFileList(boardNo);
                 mv.addObject("boardNo", boardNo);
                 mv.addObject("files", fileList);
