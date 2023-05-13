@@ -83,6 +83,7 @@
                                 <!-- 댓글 시작 -->
                                 <th:block th:if="${#lists.size(replyList) >0}">
                                     <div th:each="list : ${replyList}">
+                                        <input type="hidden" th:value="${list.replyNo}">
                                         <div th:text="${list.replyContent}"></div>
                                         <div th:text="${list.replyWriter}"></div>
                                     </div>
