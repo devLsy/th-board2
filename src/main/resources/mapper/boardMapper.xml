@@ -41,18 +41,18 @@
                          , T1.REG_DATE
                          , T1.MOD_DATE
                       FROM
-                          ( SELECT BOARD_NO
-                                 , TITLE
-                                 , CONTENT
-                                 , WRITER
-                                 , USE_YN
-                                 , REG_DATE
-                                 , MOD_DATE
-                              FROM BOARD_INFO
-                             WHERE 1=1
-                               AND USE_YN = 'Y'
-                            <include refid="appendSearch"/>
-                             ORDER BY REG_DATE DESC ) T1
+                              ( SELECT BOARD_NO
+                                     , TITLE
+                                     , CONTENT
+                                     , WRITER
+                                     , USE_YN
+                                     , REG_DATE
+                                     , MOD_DATE
+                                  FROM BOARD_INFO
+                                 WHERE 1=1
+                                   AND USE_YN = 'Y'
+                                <include refid="appendSearch"/>
+                                 ORDER BY REG_DATE DESC ) T1
            <![CDATA[ WHERE ROWNUM <= #{lastRecordIndex} ]]>) T2
          WHERE T2.no >= #{firstRecordIndex}
     </select>
