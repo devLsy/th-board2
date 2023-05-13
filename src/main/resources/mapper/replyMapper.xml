@@ -44,10 +44,10 @@
           FROM REPLY_INFO
          WHERE BOARD_NO = #{boardNo}
     </select>
-
+    
     <!--댓글 작성-->
     <insert id="insertReply" parameterType="ReplyVo">
-        <selectKey keyProperty="boardNo" resultType="INTEGER" order="BEFORE">
+        <selectKey keyProperty="replyNo" resultType="INTEGER" order="BEFORE">
             SELECT REPLY_NO_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         /* 댓글 작성 */
