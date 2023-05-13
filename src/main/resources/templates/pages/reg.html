@@ -75,24 +75,39 @@
                                 <!--이미지 미리보기-->
                                 <div th:each="file : ${files} ">
                                     <a th:href="|/download/${file.fileNo}|" th:title="${file.fileOrgName}">
-                                        <img th:src="|/images/${file.fileNo}|" width="150" height="150">
+<!--                                        <img th:src="|/images/${file.fileNo}|" width="150" height="150">-->
+                                        <img th:src="|/images/${file.fileNo}|" height="150">
                                         <p th:text="${file.fileOrgName}"></p>
                                     </a>
                                 </div>
-
-                                <!-- 댓글 시작 -->
-                                <th:block th:if="${#lists.size(replyList) >0}">
-                                    <div th:each="list : ${replyList}">
-                                        <input type="hidden" th:value="${list.replyNo}">
-                                        <div th:text="${list.replyContent}"></div>
-                                        <div th:text="${list.userId}"></div>
-                                    </div>
-                                </th:block>
-                                <!-- 댓글 종료 -->
-
-                                    <button type="submit" class="btn btn-success">수정</button>
-                                    <a th:href="@{/}" class="btn btn-info">목록</a>
+                                <button type="submit" class="btn btn-success">수정</button>
+                                <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
+                        </div>
+
+                        <!-- 댓글 시작 -->
+                        <section class="mb-5">
+                            <th:block th:if="${session.id != null}">
+                            <div class="card bg-light">
+                                <div class="card-body" th:each="list : ${replyList}">
+                                    <!-- Comment form-->
+                                    <form class="mb-4">
+                                        <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                                    <!-- Comment with nested comments-->
+                                    <div class="d-flex mb-4">
+                                        <!-- Parent comment-->
+                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold" th:text="${list.userId}">Commenter Name</div>
+                                            <span th:text="${list.replyContent}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </th:block>
+                           </form>
+                        </section>
+                        <!-- 댓글 종료 -->
                         </div>
                     </div>
                 </div>
