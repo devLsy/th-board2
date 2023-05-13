@@ -52,7 +52,7 @@ public class PaginationInfo {
         lastRecordIndex = getCurrentPage() * getRecordCountPerPage();
         return lastRecordIndex;
     }
-    
+
     public int getFirstPage() {
         return 1;
     }
