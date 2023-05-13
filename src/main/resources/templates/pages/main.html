@@ -71,6 +71,16 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- 페이지네이션 start -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <!-- pageMaker의 startPage부터 endPage까지 루프, a태그의 href에 idx를 링크(get방식으로 pageNum을 붙여서) -->
+                            <li class="page-item" id="paginate_btn" th:each="idx: ${#numbers.sequence(paging.firstPageNo, paging.lastPageNo)}" th:classappend="${paging.currentPage} == ${idx} ? active : null">
+                                <a class="page-link" th:href="@{/(currentPage=${idx})}" th:text="${idx}"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- // 페이지네이션 end -->
                     </form>
                 </div>
             <div class="input-group">

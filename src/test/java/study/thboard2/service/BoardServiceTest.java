@@ -30,7 +30,7 @@ class BoardServiceTest {
     @DisplayName("게시글목록_카운트")
     @Disabled
     void getBoardCnt() throws Exception {
-        boardService.getBoardCnt();
+//        boardService.getBoardCnt();
     }
 
     @Test

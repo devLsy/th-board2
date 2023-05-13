@@ -5,7 +5,7 @@ file.path: D:/upload/
 
 mybatis:
   mapper-locations: mapper/**/*.xml
-  type-aliases-package: study.thboard2.domain.vo
+  type-aliases-package: study.thboard2.domain.*
   configuration:
     jdbc-type-for-null: null
 

@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import study.thboard2.domain.vo.BoardVo;
+import study.thboard2.domain.vo.CommonVo;
 import study.thboard2.domain.vo.FileVo;
-import study.thboard2.domain.vo.SearchVo;
+import study.thboard2.domain.vo.PaginationInfo;
 import study.thboard2.service.BoardService;
 import study.thboard2.service.FileService;
 
@@ -29,13 +30,24 @@ public class BoardController {
      * @return
      */
     @GetMapping("")
-    public ModelAndView list(@ModelAttribute SearchVo searchVo) {
+    public ModelAndView list(@ModelAttribute CommonVo commonVo) {
         ModelAndView mv = new ModelAndView("pages/main");
 
         try {
-            List<BoardVo> boardList = boardService.getBoardList(searchVo);
-            mv.addObject("search", searchVo);
+            //전체 게시글 수
+            int totalCnt = boardService.getBoardCnt(commonVo);
+            //페이징 처리 후 반환 객체
+            commonVo.setTotalCount(totalCnt);
+            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
+
+            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
+            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
+
+            List<BoardVo> boardList = boardService.getBoardList(commonVo);
+            log.info("paging = [{}]", paging);
+            mv.addObject("search", commonVo);
             mv.addObject("list", boardList);
+            mv.addObject("paging", paging);
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }
