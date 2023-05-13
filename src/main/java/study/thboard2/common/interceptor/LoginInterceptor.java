@@ -24,6 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         log.info("옳지! 로그인 상태구나. 너 하고 싶은데로 가라.");
+        log.info("stored_session_id = [{}]", session.getAttribute("id"));
         return true;
     }
 }
