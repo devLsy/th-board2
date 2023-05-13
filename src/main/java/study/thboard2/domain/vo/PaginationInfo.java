@@ -1,10 +1,10 @@
 package study.thboard2.domain.vo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
 public class PaginationInfo {
 
  /* Required Fields - 페이징 계산을 위해 반드시 입력되어야 하는 필드들이다. */
