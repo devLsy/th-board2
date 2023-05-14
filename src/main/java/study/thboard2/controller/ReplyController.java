@@ -27,20 +27,25 @@ public class ReplyController {
      * @throws Exception
      */
     @PostMapping(value = "reg/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Integer saveReply(@PathVariable Integer boardNo, ReplyVo replyVo, RedirectAttributes rttr) throws Exception{
+    public Integer saveReply(@PathVariable Integer boardNo, ReplyVo replyVo) throws Exception{
         try {
             replyService.regReply(replyVo);
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }
-        rttr.addFlashAttribute("replyNo", replyVo.getReplyNo());
         return replyVo.getReplyNo();
     }
 
-
-
-
-    //댓글 상세
+    //댓글 수정
+    @PostMapping("modify/{boardNo}")
+    public Integer modifyReply(@PathVariable Integer boardNo, ReplyVo replyVo) {
+        try {
+            replyService.modifyReply(replyVo);
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
+        return replyVo.getReplyNo();
+    }
 
 
 

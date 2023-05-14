@@ -19,11 +19,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
         if ("none".equals(session.getAttribute("id")) || session.getAttribute("id") == null) {
-            log.info("로그인을 안했네? 로그인으로 가버려~~~~~~~~~");
+            log.info("미인증 사용자입니다. 로그인 페이지로 이동 합니다.");
             response.sendRedirect("/login");
             return false;
         }
-        log.info("옳지! 로그인 상태구나. 너 하고 싶은데로 가라.");
+        log.info("인증 성공!");
         log.info("stored_session_id = [{}]", session.getAttribute("id"));
         return true;
     }

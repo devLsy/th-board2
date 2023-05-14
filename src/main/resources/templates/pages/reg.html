@@ -93,7 +93,14 @@
                                         <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                         <div class="ms-3">
                                             <div class="fw-bold" th:text="${list.userId}"></div>
-                                            <span th:text="${list.replyContent}"></span>
+                                            <th:block th:if="${session.id == list.userId}">
+                                                <input type="text" name="replyContent" th:value="${list.replyContent}" />
+                                                <input type="hidden" name="replyNo" th:value="${list.replyNo}">
+                                            <button type="button" id="replyUpdate" class="btn btn-info">수정</button>
+                                            </th:block>
+                                            <th:block th:unless="${session.id == list.userId}">
+                                                <input type="text" th:value="${list.replyContent}" readonly/>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
@@ -114,10 +121,10 @@
 
 <script layout:fragment="script" th:inline="javascript" type="text/javascript">
     $(document).ready(function () {
+        const boardNo = $("#boardNo").val();
             //댓글 저장
             $("#replySave").on("click", function () {
-    
-                const boardNo = $("#boardNo").val();
+                // const boardNo = $("#boardNo").val();
                 $.ajax({
                 url : '/reply/reg/' + boardNo,
                 type : 'post',
@@ -133,7 +140,26 @@
                     console.log(error);
                 }
             });
+        });
 
+        //댓글 수정
+        $("#replyUpdate").on("click", function () {
+
+              $.ajax({
+                url : '/reply/modify/' + boardNo,
+                type : 'post',
+                dataType : 'json',
+                data : $("#replyFrm").serialize(),
+                ansync: false,
+                success: function (replyNo) {
+                    alert(replyNo +  "번 댓글이 수정되었습니다.");
+                    $("#content").val('');
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
         });
     });
 </script>
