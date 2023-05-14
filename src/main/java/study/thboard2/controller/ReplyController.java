@@ -2,7 +2,9 @@ package study.thboard2.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import study.thboard2.domain.vo.ReplyVo;
 import study.thboard2.service.ReplyService;
@@ -64,6 +66,22 @@ public class ReplyController {
             log.info("Exception => [{}] ", e.getMessage());
         }
         return replyVo;
+    }
+
+    /**
+     * 댓글 삭제
+     * @param boardNo
+     * @param replyNo
+     * @return
+     */
+    @PostMapping(value = "del/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> delReply(@PathVariable Integer boardNo, @RequestParam Integer replyNo) {
+        try {
+            replyService.removeReply(boardNo, replyNo);
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

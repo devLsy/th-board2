@@ -97,6 +97,7 @@
                                                 <input type="hidden" name="replyNo" th:value="${list.replyNo}">
                                                 <input type="text" th:value="${list.replyContent}" readonly />
                                                 <a href="#" th:onclick="'javascript:updateReplyModalForm('+${list.replyNo}+')'" class="btn btn-info updateReply">수정</a>
+                                                <a href="#" th:onclick="'javascript:delReply('+${list.replyNo}+')'" class="btn btn-danger delReply">삭제</a>
 
                                             <!--modal-->
                                             <div class="modal fade" id="updateReplyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,6 +149,10 @@
     $(document).ready(function () {
             // 댓글 수정 a 태그 기본 동작 방지
             $(".updateReply").on("click", function (e) {
+                e.preventDefault();
+            });
+            // 댓글 삭제 a 태그 기본 동작 방지
+            $(".delReply").on("click", function (e) {
                 e.preventDefault();
             });
             //댓글 저장
@@ -214,6 +219,30 @@
             }
         });
         $("#updateReplyModal").modal("show");
+    }
+
+    //댓글 삭제
+    function delReply(replyNum) {
+        if (!confirm("정말 삭제할거야? 복구 못하는데?")) {
+            return;
+        } else {
+            const params = {replyNo : replyNum};
+
+                $.ajax({
+                url : '/reply/del/' + boardNo,
+                type : 'post',
+                dataType : 'json',
+                data : params,
+                ansync: false,
+                success: function (result) {
+                    alert("삭제되었습니다.");
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }   
+            });
+        }
     }
 </script>
 
