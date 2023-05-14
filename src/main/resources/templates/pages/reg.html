@@ -92,9 +92,7 @@
                                 <div class="card-body">
                                     <!-- Comment form-->
                                     <form class="mb-4">
-                                        <div th:text="${session.id}"></div>
-                                        <div th:text="${info.userId}"></div>
-                                        <textarea class="form-control" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
+                                        <textarea class="form-control" id="replyContent" name="replyContent" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
                                         <button type="button" class="btn btn-dark">저장</button>
                                     <!-- Comment with nested comments-->
                                     <div class="d-flex mb-4" th:each="list : ${replyList}">

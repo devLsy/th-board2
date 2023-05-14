@@ -23,7 +23,7 @@ public class ReplyService extends CommonService{
      * @param boardNo
      * @return
      */
-    public List<ReplyVo> getReplyList(Integer boardNo) {
+    public List<ReplyVo> getReplyList(Integer boardNo) throws Exception {
         return replyMapper.selectReplyList(boardNo);
     }
 
@@ -32,7 +32,7 @@ public class ReplyService extends CommonService{
      * @param boardNo
      * @return
      */
-    public int getReplyCnt(Integer boardNo) {
+    public int getReplyCnt(Integer boardNo) throws Exception {
         return replyMapper.selectReplyCnt(boardNo);
     }
 
@@ -41,7 +41,7 @@ public class ReplyService extends CommonService{
      * @param boardNo
      * @return
      */
-    public ReplyVo getReplyDetail(Integer replyNo, Integer boardNo) {
+    public ReplyVo getReplyDetail(Integer replyNo, Integer boardNo) throws Exception {
         return replyMapper.selectReplyDetail(replyNo, boardNo);
     }
 
@@ -49,7 +49,8 @@ public class ReplyService extends CommonService{
      * 댓글 작성
      * @param replyVo
      */
-    public void regReply(ReplyVo replyVo) {
+    @Transactional
+    public void regReply(ReplyVo replyVo) throws Exception{
         replyMapper.insertReply(replyVo);
     }
 
@@ -57,7 +58,8 @@ public class ReplyService extends CommonService{
      * 댓글 수정
      * @param replyVo
      */
-    public void modifyReply(ReplyVo replyVo) {
+    @Transactional
+    public void modifyReply(ReplyVo replyVo) throws Exception{
         replyMapper.updateReply(replyVo);
     }
 
@@ -66,7 +68,8 @@ public class ReplyService extends CommonService{
      * @param boardNo
      * @param replyNo
      */
-    public void removeReply(Integer boardNo, Integer replyNo) {
+    @Transactional
+    public void removeReply(Integer boardNo, Integer replyNo) throws Exception{
         replyMapper.deleteReply(replyNo, boardNo);
     }
 

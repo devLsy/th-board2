@@ -33,7 +33,7 @@
     <!-- 쿼리 결과를 테이블 형식으로 볼려면 resultsettable 레벨 수정 -->
     <logger name="jdbc.resultsettable" level="DEBUG"/>
     <logger name="jdbc.connection" level="OFF"/>
-    
+
     <root level="INFO">
         <appender-ref ref="console" />
 <!--        <appender-ref ref="file" />-->
