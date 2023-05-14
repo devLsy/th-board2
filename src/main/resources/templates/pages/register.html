@@ -44,10 +44,10 @@
                                             <input class="form-control" id="userPasswordConfirm" type="password" placeholder="Confirm password" />
                                             <label for="userPasswordConfirm">비밀번호 확인</label>
                                         </div>
-                                    </div>
+                                    </div>  
                                 </div>
                                 <div class="mt-4 mb-0">
-                                    <div class="d-grid"><button type="submit" class="btn btn-success">등록</button></div>
+                                    <div class="d-grid"><button type="button" onclick="validation();" class="btn btn-success">등록</button></div>
                                 </div>
                             </form>
                         </div>
@@ -66,6 +66,22 @@
     $(document).ready(function () {
 
     });
+    //비밀번호 확인
+    function validation() {
+
+        const firstPassword = $("#userPassword").val();
+        const secondPassword = $("#userPasswordConfirm").val();
+
+        let passYn = false;
+        passYn = firstPassword === secondPassword ? true : false;
+
+        if (!passYn) {
+            alert("비밀번호가 같지 않아. 다시 입력해!");
+            return;
+        } else {
+            $("#frm").submit();
+        }
+    }
 </script>
 
 </html>
