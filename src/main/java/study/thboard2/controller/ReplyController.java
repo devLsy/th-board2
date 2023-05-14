@@ -1,12 +1,10 @@
 package study.thboard2.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import study.thboard2.domain.vo.ReplyVo;
 import study.thboard2.service.ReplyService;
@@ -36,7 +34,12 @@ public class ReplyController {
         return replyVo.getReplyNo();
     }
 
-    //댓글 수정
+    /**
+     * 댓글 수정
+     * @param boardNo
+     * @param replyVo
+     * @return
+     */
     @PostMapping("modify/{boardNo}")
     public Integer modifyReply(@PathVariable Integer boardNo, ReplyVo replyVo) {
         try {
@@ -47,11 +50,21 @@ public class ReplyController {
         return replyVo.getReplyNo();
     }
 
-
-
-
-
-    //댓글 삭제
+    /**
+     * 댓글 상세
+     * @param boardNo
+     * @param replyVo
+     * @return
+     */
+    @GetMapping("detail/{board}")
+    public ReplyVo detailReply(@PathVariable Integer boardNo, @RequestBody ReplyVo replyVo) {
+        try {
+            replyService.getReplyDetail(boardNo, replyVo.getReplyNo());
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
+        return replyVo;
+    }
 
 
 
