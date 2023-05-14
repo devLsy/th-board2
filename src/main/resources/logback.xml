@@ -3,8 +3,8 @@
 
     <property name="LOG_DIR" value="D:/applog/th-board2" />
     <property name="LOG_FILE_NAME" value="th-board2" />
-    <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}]  %-3level [%logger{0}:%line] : %msg %n" />
-
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %magenta(%-4relative) --- %green([%thread{10}]) %cyan(%logger{20}) : %msg%n" />
+        
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
