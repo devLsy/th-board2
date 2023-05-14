@@ -43,7 +43,6 @@ public class BoardController {
             commonVo.setLastRecordIndex(paging.getLastRecordIndex());
 
             List<BoardVo> boardList = boardService.getBoardList(commonVo);
-            log.info("paging = [{}]", paging);
             mv.addObject("search", commonVo);
             mv.addObject("list", boardList);
             mv.addObject("paging", paging);

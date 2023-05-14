@@ -49,7 +49,7 @@
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 수정</h3></div>
                         <div class="card-body">
                             <form name="updateFrm" action="/mod" method="post">
-                                <input type="hidden" name="boardNo" th:value="${boardNo}">
+                                <input type="hidden" name="boardNo" id="boardNo" th:value="${boardNo}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3 mb-md-0">
@@ -82,8 +82,9 @@
                             <div class="card bg-light">
                                 <div class="card-body">
                                     <!-- Comment form-->
-                                    <form id="replyFrm" class="mb-4">
-                                        <input type="hidden" name="boardNo" th:value="${boardNo}">
+                                    <form id="replyFrm" class="mb-4" method="post">
+                                        <input type="hidden" name="boardNo" id="boardNo" th:value="${boardNo}">
+                                        <input type="hidden" name="userId" id="userId" th:value="${session.id}">
                                         <textarea class="form-control" id="replyContent" name="replyContent" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
                                         <button type="button" id="replySave" class="btn btn-dark">저장</button>
                                     <!-- Comment with nested comments-->
@@ -114,18 +115,17 @@
 <script layout:fragment="script" th:inline="javascript" type="text/javascript">
     $(document).ready(function () {
             //댓글 저장
-            $("#replyFrm").on("click", function () {
-
-                const boardNo = $("#replyFrm[id='boardNo']").val();
-
+            $("#replySave").on("click", function () {
+    
+                const boardNo = $("#boardNo").val();
                 $.ajax({
                 url : '/reply/reg/' + boardNo,
                 type : 'post',
                 dataType : 'json',
-                data : $("#replyFrm").siblings(),
+                data : $("#replyFrm").serialize(),
                 ansync: false,
-                success: function (result) {
-                    alert(result +  "번 댓글이 저장되었습니다.");
+                success: function (replyNo) {
+                    alert(replyNo +  "번 댓글이 저장되었습니다.");
                     $("#content").val('');
                     location.reload();
                 },
