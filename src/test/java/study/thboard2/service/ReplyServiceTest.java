@@ -49,8 +49,7 @@ class ReplyServiceTest {
 //    @Disabled
     void regReply() {
         ReplyVo replyVo = new ReplyVo();
-        replyVo.setReplyNo(2);
-        replyVo.setBoardNo(49159);
+        replyVo.setBoardNo(2);
         replyVo.setReplyContent("첫번 째 댓글 테스트");
         replyVo.setUserId("lsy");
         replyService.regReply(replyVo);

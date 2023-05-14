@@ -41,7 +41,7 @@ class BoardServiceTest {
         BoardVo boardVo = new BoardVo();
         boardVo.setTitle("게시판으로 기초를 다지자");
         boardVo.setContent("게시판 반복 개발");
-        boardVo.setWriter("제노피스");
+        boardVo.setUserId("lsy");
         boardService.regBoard(boardVo);
     }
 
@@ -54,7 +54,6 @@ class BoardServiceTest {
         boardVo.setBoardNo(1);
         boardVo.setTitle("우유");
         boardVo.setContent("우유 맛있어");
-        boardVo.setWriter("밀크");
         boardService.modifyBoard(boardVo);
     }
 

@@ -89,13 +89,13 @@
                         <section class="mb-5">
                             <th:block th:if="${session.id != null}">
                             <div class="card bg-light">
-                                <div class="card-body" th:each="list : ${replyList}">
+                                <div class="card-body">
                                     <!-- Comment form-->
                                     <form class="mb-4">
                                         <textarea class="form-control" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
                                         <button type="button" class="btn btn-dark">저장</button>
                                     <!-- Comment with nested comments-->
-                                    <div class="d-flex mb-4">
+                                    <div class="d-flex mb-4" th:each="list : ${replyList}">
                                         <!-- Parent comment-->
                                         <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                         <div class="ms-3">
