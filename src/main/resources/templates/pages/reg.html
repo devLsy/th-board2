@@ -95,7 +95,7 @@
                                             <div class="fw-bold" th:text="${list.userId}"></div>
                                             <th:block th:if="${session.id == list.userId}">
                                                 <input type="hidden" name="replyNo" th:value="${list.replyNo}">
-                                                <input type="text" th:value="${list.replyContent}" readonly />
+                                                <input type="text" class="replyContentArea" th:value="${list.replyContent}" readonly />
                                                 <a href="#" th:onclick="'javascript:updateReplyModalForm('+${list.replyNo}+')'" class="btn btn-info updateReply">수정</a>
                                                 <a href="#" th:onclick="'javascript:delReply('+${list.replyNo}+')'" class="btn btn-danger delReply">삭제</a>
 
@@ -236,13 +236,31 @@
                 ansync: false,
                 success: function (result) {
                     alert("삭제되었습니다.");
-                    location.reload();
+                    getReplyList();     
                 },
                 error: function (request, status, error) {
                     console.log(error);
-                }   
+                }
             });
         }
+    }
+
+    //댓글 목록 조회
+    function getReplyList() {
+        $.ajax({
+                url : '/reply/list/' + boardNo,
+                type : 'get',
+                dataType : 'json',
+                ansync: false,
+                success: function (result) {
+                    console.log("success ~!");
+                    console.log(result);
+                    $(".replyContentArea").val(result.replyContent);
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
     }
 </script>
 

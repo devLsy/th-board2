@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import study.thboard2.domain.vo.ReplyVo;
 import study.thboard2.service.ReplyService;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -16,6 +18,22 @@ import study.thboard2.service.ReplyService;
 public class ReplyController {
 
     private final ReplyService replyService;
+
+    /**
+     * 댓글 목록
+     * @param boardNo
+     * @return
+     */
+    @GetMapping(value = "list/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<ReplyVo> getReplyList(@PathVariable Integer boardNo) {
+        List<ReplyVo> replyList = null;
+        try {
+            replyList = replyService.getReplyList(boardNo);
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
+        return replyList;
+    }
 
     /**
      * 댓글 등록
