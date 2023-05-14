@@ -56,6 +56,16 @@ public class UserController {
     }
 
     /**
+     * 회원 존재여부 체크
+     * @param userId
+     * @return
+     */
+//    @GetMapping("/checkUserId")
+//    public UserVo checkUserId(@RequestParam String userId) {
+//
+//    }
+    
+    /**
      * 사용자 로그인
      * @param userId
      * @param userPassword

@@ -48,6 +48,16 @@ public class UserService {
     }
 
     /**
+     * 아이디 체크
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public UserVo checkUserId(String userId) throws Exception{
+        return userMapper.selectByUserId(userId);
+    }
+
+    /**
      * 사용자 상세 정보
      * @param userNo
      * @param userId
