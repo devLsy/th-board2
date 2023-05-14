@@ -46,7 +46,7 @@ class ReplyServiceTest {
     @Test
     @Commit
     @DisplayName("등록")//성공
-    @Disabled
+//    @Disabled
     void regReply() {
         ReplyVo replyVo = new ReplyVo();
         replyVo.setReplyNo(2);

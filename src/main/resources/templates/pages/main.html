@@ -58,7 +58,7 @@
                                     <td th:text="${list.no}"></td>
                                     <td><a th:href="@{/reg(boardNo=${list.boardNo}, type=${search.type}, keyword=${search.keyword})}" th:text="${list.title}"></a></td>
                                     <td th:text="${list.content}"></td>
-                                    <td th:text="${list.writer}"></td>
+                                    <td th:text="${list.userId}"></td>
                                     <td th:text="${list.regDate}"></td>
                                     <td th:text="${list.modDate}"></td>
                                     <td><a href="#" th:onclick="|javascript:del('${list.boardNo}')|" class="btn btn-danger">삭제</a></td>

@@ -26,7 +26,7 @@
               , T2.BOARD_NO AS boardNo
               , T2.TITLE AS title
               , T2.CONTENT AS content
-              , T2.WRITER AS writer
+              , T2.USER_ID AS userId
               , T2.USE_YN AS userYn
               , TO_CHAR(T2.REG_DATE, 'YYYY-MM-DD') AS regDate
               , NVL(TO_CHAR(T2.MOD_DATE, 'YYYY-MM-DD'),'수정사항 없음') AS modDate
@@ -36,7 +36,7 @@
                          , T1.BOARD_NO
                          , T1.TITLE
                          , T1.CONTENT
-                         , T1.WRITER
+                         , T1.USER_ID
                          , T1.USE_YN
                          , T1.REG_DATE
                          , T1.MOD_DATE
@@ -44,7 +44,7 @@
                               ( SELECT BOARD_NO
                                      , TITLE
                                      , CONTENT
-                                     , WRITER
+                                     , USER_ID
                                      , USE_YN
                                      , REG_DATE
                                      , MOD_DATE
@@ -77,7 +77,7 @@
                 BOARD_NO
               , TITLE
               , CONTENT
-              , WRITER
+              , USER_ID
               , REG_DATE
             )
         VALUES
@@ -85,7 +85,7 @@
                 #{boardNo}
               , #{title}
               , #{content}
-              , #{writer}
+              , #{userId}
               , SYSDATE
             )
     </insert>
@@ -96,7 +96,7 @@
         SELECT BOARD_NO
              , TITLE
              , CONTENT
-             , WRITER
+             , USER_ID
              , USE_YN
              , REG_DATE
              , MOD_DATE

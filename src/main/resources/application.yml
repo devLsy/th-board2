@@ -1,6 +1,11 @@
 server:
   port: 8080
+  servlet:
+    session:
+      #임시로 타임아웃 해제
+      timeout: 0
 
+##첨부파일 경로
 file.path: D:/upload/
 
 mybatis:

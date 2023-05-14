@@ -1,6 +1,7 @@
 package study.thboard2.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,14 @@ class UserServiceTest {
     @Test
     @DisplayName("사용자등록")
     @Commit
+//    @Disabled
     public void 사용자등록() throws Exception {
         //givin
         UserVo userVo = new UserVo();
-        userVo.setUserId("admin");
-        userVo.setUserEmail("admin@naver.com");
+        userVo.setUserId("devlsy86");
+        userVo.setUserEmail("devlsy86@naver.com");
         userVo.setUserPassword("1234");
-        userVo.setUserName("관리자");
+        userVo.setUserName("꼬비");
 
         userService.regUser(userVo);
         //when
