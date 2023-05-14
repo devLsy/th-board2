@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import study.thboard2.domain.vo.UserVo;
 import study.thboard2.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -30,12 +32,27 @@ public class UserController {
     }
 
     /**
-     * 회원가입 화면 
+     * 회원가입 화면
      * @return
      */
     @GetMapping("/register")
     public String registerForm() {
         return "pages/register";
+    }
+
+    /**
+     * 회원가입 처리
+     * @param userVo
+     * @return
+     */
+    @PostMapping("/register")
+    public String register(@ModelAttribute UserVo userVo) {
+        try {
+            userService.regUser(userVo);
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
+        return "redirect:/login";
     }
 
     /**
@@ -48,7 +65,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestParam String userId,
                         @RequestParam String userPassword,
-                        HttpSession session) {
+                        HttpSession session) throws Exception {
 
         String id = userService.login(userId, userPassword);
         if(id == "none") return "redirect:/login";
@@ -63,7 +80,7 @@ public class UserController {
      * @return
      */
     @PostMapping("logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session) throws Exception{
         session.invalidate();
         return "redirect:/login";
     }

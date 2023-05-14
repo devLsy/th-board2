@@ -31,7 +31,8 @@ public class UserService {
      * @param  userVo
      * @throws Exception
      */
-    public void regUser(UserVo userVo) {
+    @Transactional
+    public void regUser(UserVo userVo) throws Exception{
         userMapper.insertUser(userVo);
     }
 
@@ -41,7 +42,7 @@ public class UserService {
      * @param userPassword
      * @return
      */
-    public String login(String userId, String userPassword) {
+    public String login(String userId, String userPassword) throws Exception{
         UserVo userInfo = userMapper.selectByUserId(userId);
         return (userInfo != null && userInfo.getUserPassword().equals(userPassword)) ? userInfo.getUserId() : "none";
     }
@@ -63,6 +64,7 @@ public class UserService {
      * @param userVo
      * @throws Exception
      */
+    @Transactional
     public void modifyUser(UserVo userVo) throws Exception{
         userMapper.updateUser(userVo);
     }
@@ -74,7 +76,8 @@ public class UserService {
      * @param userId
      * @throws Exception
      */
-    public void removeUser(Integer userNo, String userId) {
+    @Transactional
+    public void removeUser(Integer userNo, String userId) throws Exception{
         userMapper.delUser(userNo, userId);
     }
 }
