@@ -94,32 +94,27 @@
                                         <div class="ms-3">
                                             <div class="fw-bold" th:text="${list.userId}"></div>
                                             <th:block th:if="${session.id == list.userId}">
-                                                <input type="text" th:value="${list.replyContent}" />
                                                 <input type="hidden" name="replyNo" th:value="${list.replyNo}">
-                                                <a href="#" th:href="'javascript:updateReplyModal('+${list.replyNo}+', event)'" class="btn btn-info">수정</a>
+                                                <input type="text" th:value="${list.replyContent}" readonly />
+                                                <a href="#" th:onclick="'javascript:updateReplyModalForm('+${list.replyNo}+')'" class="btn btn-info updateReply">수정</a>
 
                                             <!--modal-->
                                             <div class="modal fade" id="updateReplyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                   <div class="modal-content">
                                                     <div class="modal-header">
-                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 변경</h1>
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">댓글 수정</h1>
                                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                        <div class="col-md-4">
-                                                          <label for="" class="form-label">비밀번호</label>
-                                                          <input type="text" class="form-control is-valid" id="password_old" name="password_old" value="" required>
-                                                          <label for="" class="form-label">비밀번호 확인</label>
-                                                          <input type="text" class="form-control is-valid" id="password_new" name="password_new" value="" required>
+                                                           <input type="hidden" id="modalReplyNo" value="">
+                                                          <textarea class="form-control" id="modalReplyContent" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
                                                         </div>
-                                                        <div class="invalid-feedback" id="errMsg">
-                                                              비밀번호가 일치하지 않습니다.
-                                                          </div>
                                                     </div>
                                                     <div class="modal-footer">
+                                                      <button type="button" class="btn btn-primary" id="modalReplyUpdate" >저장</button>
                                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                                      <button type="button" class="btn btn-primary" id="updateReply" >저장</button>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -151,9 +146,13 @@
     const boardNo = $("#boardNo").val();
 
     $(document).ready(function () {
+            // 댓글 수정 a 태그 기본 동작 방지
+            $(".updateReply").on("click", function (e) {
+                e.preventDefault();
+            });
             //댓글 저장
             $("#replySave").on("click", function () {
-                // const boardNo = $("#boardNo").val();
+
                 $.ajax({
                 url : '/reply/reg/' + boardNo,
                 type : 'post',
@@ -170,28 +169,52 @@
                 }
             });
         });
+
+        //모달창 댓글 수정
+        $("#modalReplyUpdate").on("click", function () {
+
+            const replyContent = $("#modalReplyContent").val();
+            const replyNo = $("#modalReplyNo").val();
+            const params = {replyContent : replyContent, replyNo : replyNo}
+            $.ajax({
+                url : '/reply/modify/' + boardNo,
+                type : 'post',
+                dataType : 'json',
+                data : params,
+                ansync: false,
+                success: function (replyNo) {
+                    alert(replyNo +  "번 댓글이 수정되었습니다.");
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
+        });
     });
 
     //댓글 수정 modal 표시
-        function updateReplyModal(e) {
-            e.preventDefault();
-            $("#updateReplyModal").modal("show");
-        }
-        //   $.ajax({
-        //     url : '/reply/modify/' + boardNo,
-        //     type : 'post',
-        //     dataType : 'json',
-        //     data : $("#replyFrm").serialize(),
-        //     ansync: false,
-        //     success: function (replyNo) {
-        //         alert(replyNo +  "번 댓글이 수정되었습니다.");
-        //         $("#content").val('');
-        //         location.reload();
-        //     },
-        //     error: function (request, status, error) {
-        //         console.log(error);
-        //     }
-        // });
+    function updateReplyModalForm(replyNum) {
+
+            const params = {replyNo : replyNum}
+
+            $.ajax({
+            url : '/reply/detail/' + boardNo,
+            type : 'get',
+            dataType : 'json',
+            data : params,
+            ansync: false,
+            success: function (result) {
+                $("#modalReplyContent").val(result.replyContent);
+                $("#modalReplyNo").val(result.replyNo);
+                console.log(result);
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+        });
+        $("#updateReplyModal").modal("show");
+    }
 </script>
 
 </html>

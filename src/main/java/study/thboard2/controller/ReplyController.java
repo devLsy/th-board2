@@ -1,11 +1,9 @@
 package study.thboard2.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import study.thboard2.domain.vo.ReplyVo;
 import study.thboard2.service.ReplyService;
 
@@ -40,7 +38,7 @@ public class ReplyController {
      * @param replyVo
      * @return
      */
-    @PostMapping("modify/{boardNo}")
+    @PostMapping(value = "modify/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Integer modifyReply(@PathVariable Integer boardNo, ReplyVo replyVo) {
         try {
             replyService.modifyReply(replyVo);
@@ -53,13 +51,15 @@ public class ReplyController {
     /**
      * 댓글 상세
      * @param boardNo
-     * @param replyVo
+     * @param replyNo
      * @return
      */
-    @GetMapping("detail/{board}")
-    public ReplyVo detailReply(@PathVariable Integer boardNo, @RequestBody ReplyVo replyVo) {
+    @GetMapping(value = "detail/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ReplyVo detailReply(@PathVariable Integer boardNo, @RequestParam Integer replyNo) {
+
+        ReplyVo replyVo = new ReplyVo();
         try {
-            replyService.getReplyDetail(boardNo, replyVo.getReplyNo());
+            replyVo = replyService.getReplyDetail(replyNo, boardNo);
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }
