@@ -30,6 +30,15 @@ public class UserController {
     }
 
     /**
+     * 회원가입 화면 
+     * @return
+     */
+    @GetMapping("/register")
+    public String registerForm() {
+        return "pages/register";
+    }
+
+    /**
      * 사용자 로그인
      * @param userId
      * @param userPassword
