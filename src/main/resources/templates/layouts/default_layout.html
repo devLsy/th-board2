@@ -16,8 +16,8 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
      <!-- content css -->
     <th:block layout:fragment="css"></th:block>
-    <!-- content script -->
-    <th:block layout:fragment="script"></th:block>
+<!--    &lt;!&ndash; content script &ndash;&gt;-->
+<!--    <th:block layout:fragment="script"></th:block>-->
 </head>
 
 <body class="sb-nav-fixed">
@@ -32,6 +32,8 @@
         <main>
             <!-- content fragment 사용 -->
             <th:block layout:fragment="content"></th:block>
+            <!-- content script -->
+            <th:block layout:fragment="script"></th:block>
         </main>
         <!-- footer fragment 사용 -->
         <th:block th:replace="fragments/footer :: footerFragment"></th:block>

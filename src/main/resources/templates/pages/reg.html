@@ -2,15 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default_layout}">
-
-    <script layout:fragment="script" th:inline="javascript" type="text/javascript">
-        $(document).ready(function () {
-
-        });
-
-
-    </script>
-
 <!-- Content -->
 <div layout:fragment="content">
     <!--게시글 쓰기-->
@@ -22,7 +13,7 @@
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 쓰기</h3></div>
                         <div class="card-body">
-                            <form name="frm" method="post" enctype="multipart/form-data">
+                            <form name="regFrm" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="userId" name="userId" th:value="${session.id}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -57,7 +48,7 @@
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 수정</h3></div>
                         <div class="card-body">
-                            <form name="frm" action="/mod" method="post">
+                            <form name="updateFrm" action="/mod" method="post">
                                 <input type="hidden" name="boardNo" th:value="${boardNo}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -91,9 +82,10 @@
                             <div class="card bg-light">
                                 <div class="card-body">
                                     <!-- Comment form-->
-                                    <form class="mb-4">
+                                    <form id="replyFrm" class="mb-4">
+                                        <input type="hidden" name="boardNo" th:value="${boardNo}">
                                         <textarea class="form-control" id="replyContent" name="replyContent" rows="3" placeholder="댓글을 작성 해주세요."></textarea>
-                                        <button type="button" class="btn btn-dark">저장</button>
+                                        <button type="button" id="replySave" class="btn btn-dark">저장</button>
                                     <!-- Comment with nested comments-->
                                     <div class="d-flex mb-4" th:each="list : ${replyList}">
                                         <!-- Parent comment-->
@@ -118,4 +110,32 @@
     </th:block>
 
 </div>
+
+<script layout:fragment="script" th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+            //댓글 저장
+            $("#replyFrm").on("click", function () {
+
+                const boardNo = $("#replyFrm[id='boardNo']").val();
+
+                $.ajax({
+                url : '/reply/reg/' + boardNo,
+                type : 'post',
+                dataType : 'json',
+                data : $("#replyFrm").siblings(),
+                ansync: false,
+                success: function (result) {
+                    alert(result +  "번 댓글이 저장되었습니다.");
+                    $("#content").val('');
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
+
+        });
+    });
+</script>
+
 </html>
