@@ -13,7 +13,7 @@
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 쓰기</h3></div>
                         <div class="card-body">
-                            <form name="regFrm" method="post" enctype="multipart/form-data">
+                            <form name="regFrm" id="regFrm" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="userId" name="userId" th:value="${session.id}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -28,7 +28,7 @@
                                     <label for="content">내용</label>
                                     <input type="file" name="files" id="files" multiple="multiple">
                                 </div>
-                                    <button type="submit" class="btn btn-success">등록</button>
+                                    <button type="button" id="regAjax" class="btn btn-success">등록</button>
                                     <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
                         </div>
@@ -48,7 +48,7 @@
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">게시글 수정</h3></div>
                         <div class="card-body">
-                            <form name="updateFrm" action="/mod" method="post">
+                            <form name="updateFrm" id="updateFrm" action="/mod" method="post">
                                 <input type="hidden" name="boardNo" id="boardNo" th:value="${boardNo}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -71,7 +71,7 @@
                                         <p th:text="${file.fileOrgName}"></p>
                                     </a>
                                 </div>
-                                <button type="submit" class="btn btn-success">수정</button>
+                                <button type="button" id="updateBoardBtn" class="btn btn-success">수정</button>
                                 <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
                         </div>
@@ -262,6 +262,51 @@
                 }
             });
     }
+
+    //게시글 작성(ajax)
+    $("#regAjax").on("click", function () {
+        if (!confirm("게시글 등록 할거야?")) {
+            return;
+        } else {
+            $.ajax({
+                url : '/regAjax',
+                type : 'post',
+                dataType : 'json',
+                data: $("#regFrm").serialize(),
+                ansync: false,
+                success: function (result) {
+                    alert(result + "번 게시글이 등록되었단다.");
+                    location.href = "/";
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+                });
+            }
+
+    });
+
+    //게시글 수정(ajax)
+    $("#updateBoardBtn").on("click", function () {
+        if (!confirm("게시글 수정 할거야?")) {
+            return;
+        } else {
+            $.ajax({
+                url : '/modifyAjax',
+                type : 'post',
+                dataType : 'json',
+                data: $("#updateFrm").serialize(),
+                ansync: false,
+                success: function (result) {
+                    alert("수정되었단다.");
+                    location.href = "/";
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
 </script>
 
 </html>

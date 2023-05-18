@@ -2,6 +2,9 @@ package study.thboard2.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -99,6 +102,18 @@ public class BoardController {
     }
 
     /**
+     * 게시글 등록 처리(비동기)
+     * @param boardVo
+     * @return
+     */
+    @PostMapping(value = "/regAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public Integer regAjax(@ModelAttribute BoardVo boardVo) throws Exception{
+        boardService.regBoard(boardVo);
+        return boardVo.getBoardNo();
+    }
+
+    /**
      * 게시글 수정 처리
      * @param boardVo
      * @return
@@ -111,6 +126,19 @@ public class BoardController {
             log.info("Exception => [{}] ", e.getMessage());
         }
         return "redirect:/";
+    }
+
+    /**
+     * 게시글 수정(ajax)
+     * @param boardVo
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @PostMapping(value = "/modifyAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> modifyAjax(@ModelAttribute BoardVo boardVo) throws Exception {
+        boardService.modifyBoard(boardVo);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
