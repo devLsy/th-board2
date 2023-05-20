@@ -16,6 +16,7 @@ import study.thboard2.service.ReplyService;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -54,6 +55,40 @@ public class BoardController extends CommonController{
             log.info("Exception => [{}] ", e.getMessage());
         }
         return mv;
+    }
+
+
+    /**
+     * 게시글 목록(ajax)
+//     * @param commonVo
+     * @return
+     */
+    @PostMapping("listAjax")
+    @ResponseBody
+//    public ModelAndView listAjax(@ModelAttribute CommonVo commonVo) {
+    public void listAjax(@RequestBody HashMap<String, Object> map) {
+        ModelAndView mv = new ModelAndView("pages/main");
+
+        try {
+
+            log.info("currentPage : " + map.get("currentPage"));
+
+            //전체 게시글 수
+//            int totalCnt = boardService.getBoardCnt(commonVo);
+//            //페이징 처리 후 반환 객체
+//            commonVo.setTotalCount(totalCnt);
+//            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
+//
+//            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
+//            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
+//
+//            List<BoardVo> boardList = boardService.getBoardList(commonVo);
+//            mv.addObject("search", commonVo);
+//            mv.addObject("list", boardList);
+//            mv.addObject("paging", paging);
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
     }
 
     /**
