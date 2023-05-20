@@ -20,7 +20,7 @@ public interface UserMapper {
     UserVo selectByUserId(@Param("userId") String userId);
 
     /* 사용자 상세 정보 */
-    UserVo selectUserDetail(@Param(("userNo")) Integer userNo, @Param("userId") String userId);
+    UserVo selectUserDetail(@Param("userId") String userId);
 
     /* 사용자 정보 수정 */
     void updateUser(UserVo userVo);

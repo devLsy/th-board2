@@ -83,7 +83,7 @@
              , REG_DATE AS regDate              /* 등록일 */
              , MOD_DATE AS modDate              /* 수정일 */
           FROM USER_INFO
-         WHERE USER_NO = #{userNo}
+         WHERE 1=1
            AND USER_ID = #{userId}
     </select>
 

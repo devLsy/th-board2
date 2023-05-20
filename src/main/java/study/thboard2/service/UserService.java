@@ -59,13 +59,12 @@ public class UserService {
 
     /**
      * 사용자 상세 정보
-     * @param userNo
      * @param userId
      * @return
      * @throws Exception
      */
-    public UserVo getUserDetail(Integer userNo, String userId) throws Exception{
-        return userMapper.selectUserDetail(userNo, userId);
+    public UserVo getUserDetail(String userId) throws Exception{
+        return userMapper.selectUserDetail(userId);
     }
 
     /**

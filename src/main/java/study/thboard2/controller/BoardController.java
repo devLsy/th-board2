@@ -14,6 +14,7 @@ import study.thboard2.service.BoardService;
 import study.thboard2.service.FileService;
 import study.thboard2.service.ReplyService;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/")
-public class BoardController {
+public class BoardController extends CommonController{
 
     private final BoardService boardService;
     private final ReplyService replyService;
@@ -89,8 +90,10 @@ public class BoardController {
      * @return
      */
     @PostMapping("/reg")
-    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files) {
+    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, HttpSession session) {
         try {
+            UserVo userInfo = getUserSessionInfo(session);
+            boardVo.setUserId(userInfo.getUserId());
             boardService.regBoard(boardVo);
             fileService.saveFile(files, boardVo.getBoardNo());
         } catch (IOException io) {
@@ -108,7 +111,9 @@ public class BoardController {
      */
     @PostMapping(value = "/regAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Integer regAjax(@ModelAttribute BoardVo boardVo) throws Exception{
+    public Integer regAjax(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception{
+        UserVo userInfo = getUserSessionInfo(session);
+        boardVo.setUserId(userInfo.getUserId());
         boardService.regBoard(boardVo);
         return boardVo.getBoardNo();
     }
@@ -119,8 +124,10 @@ public class BoardController {
      * @return
      */
     @PostMapping("/mod")
-    public String modify(@ModelAttribute BoardVo boardVo) {
+    public String modify(@ModelAttribute BoardVo boardVo, HttpSession session) {
         try {
+            UserVo userInfo = getUserSessionInfo(session);
+            boardVo.setUserId(userInfo.getUserId());
             boardService.modifyBoard(boardVo);
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
@@ -136,7 +143,9 @@ public class BoardController {
      */
     @ResponseBody
     @PostMapping(value = "/modifyAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> modifyAjax(@ModelAttribute BoardVo boardVo) throws Exception {
+    public ResponseEntity<?> modifyAjax(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception {
+        UserVo userInfo = getUserSessionInfo(session);
+        boardVo.setUserId(userInfo.getUserId());
         boardService.modifyBoard(boardVo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
