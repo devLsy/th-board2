@@ -74,15 +74,17 @@ public class BoardController extends CommonController{
             log.info("currentPage : " + map.get("currentPage"));
 
             //전체 게시글 수
-//            int totalCnt = boardService.getBoardCnt(commonVo);
+            CommonVo commonVo = new CommonVo();
+            commonVo.setCurrentPage((Integer) map.get("currentPage"));
+            int totalCnt = boardService.getBoardCnt(commonVo);
 //            //페이징 처리 후 반환 객체
-//            commonVo.setTotalCount(totalCnt);
-//            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
-//
-//            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
-//            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
-//
-//            List<BoardVo> boardList = boardService.getBoardList(commonVo);
+            commonVo.setTotalCount(totalCnt);
+            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
+
+            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
+            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
+
+            List<BoardVo> boardList = boardService.getBoardList(commonVo);
 //            mv.addObject("search", commonVo);
 //            mv.addObject("list", boardList);
 //            mv.addObject("paging", paging);
