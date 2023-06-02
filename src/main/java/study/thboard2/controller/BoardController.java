@@ -133,8 +133,10 @@ public class BoardController extends CommonController{
             boardVo.setUserId(userInfo.getUserId());
             boardService.regBoard(boardVo);
             fileService.saveFile(files, boardVo.getBoardNo());
+
         } catch (IOException io) {
             log.info("Exception => [{}] ", io.getMessage());
+
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }
@@ -148,10 +150,17 @@ public class BoardController extends CommonController{
      */
     @PostMapping(value = "/regAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public Integer regAjax(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception{
+    public Integer regAjax(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files ,HttpSession session) throws Exception {
+
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
-        boardService.regBoard(boardVo);
+
+        try {
+            boardService.regBoard(boardVo);
+            fileService.saveFile(files, boardVo.getBoardNo());
+        } catch (Exception e) {
+            log.info("Exception => [{}] ", e.getMessage());
+        }
         return boardVo.getBoardNo();
     }
 
