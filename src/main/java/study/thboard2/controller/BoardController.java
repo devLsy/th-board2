@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import study.thboard2.common.interceptor.LoginInterceptor;
 import study.thboard2.domain.vo.*;
 import study.thboard2.service.BoardService;
 import study.thboard2.service.FileService;
@@ -146,21 +147,28 @@ public class BoardController extends CommonController{
     /**
      * 게시글 등록 처리(비동기)
      * @param boardVo
+     * @param files
      * @return
      */
-    @PostMapping(value = "/regAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/regAjax")
     @ResponseBody
-    public Integer regAjax(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files ,HttpSession session) throws Exception {
+    public Integer regAjax(@RequestPart(value = "boardVo") BoardVo boardVo,
+                           @RequestPart(value = "files", required = false) List<MultipartFile> files,
+                           HttpSession session) throws IOException, Exception {
 
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
 
-        try {
+        log.info("boardVo = [{}]", boardVo);
+
+        for (MultipartFile file : files) {
+            log.info("파일정보 찍혀?");
+            log.info("files = [{}]", file.getOriginalFilename());
+        }
+            log.info("인서트 서비스 찍히니?");
             boardService.regBoard(boardVo);
             fileService.saveFile(files, boardVo.getBoardNo());
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
+
         return boardVo.getBoardNo();
     }
 

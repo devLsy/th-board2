@@ -269,15 +269,36 @@
         if (!confirm("게시글 등록 할거야?")) {
             return;
         } else {
+
+            //vo
+            const params = {
+                title: $("#title").val(),
+                content : $("#content").val()
+            };
+
+            let file = $("#files").val();
+            if(file.length > 0) file = $("#files")[0];
+
+            const frm = $("#form")[0];
+            const formData = new FormData(frm);
+            formData.append("boardVo", new Blob([JSON.stringify(params)], {type: "application/json"}));
+            formData.append("files", file);
+
             $.ajax({
                 url : '/regAjax',
                 type : 'post',
-                dataType : 'json',
-                data: $("#regFrm").serialize(),
+                processData: false,
+                contentType: false,
+                data: formData,
                 ansync: false,
                 success: function (result) {
-                    alert(result + "번 게시글이 등록되었단다.");
-                    location.href = "/";
+                    if(result != null || result != "" || result != undefined) {
+                        alert(result + "번 게시글이 등록되었단다.");
+                        location.href = "/";
+                    } else {
+                        alert("게시글 등록에 실패했다.");
+                        location.href = "/";
+                    }
                 },
                 error: function (request, status, error) {
                     console.log(error);
