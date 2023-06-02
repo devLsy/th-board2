@@ -150,7 +150,7 @@ public class BoardController extends CommonController{
      * @param files
      * @return
      */
-    @PostMapping(value = "/regAjax")
+    @PostMapping(value = "/regAjax", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public Integer regAjax(@RequestPart(value = "boardVo") BoardVo boardVo,
                            @RequestPart(value = "files", required = false) List<MultipartFile> files,
