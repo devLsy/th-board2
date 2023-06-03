@@ -17,7 +17,6 @@ import study.thboard2.service.ReplyService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,7 +90,7 @@ public class BoardController extends CommonController{
      */
     @GetMapping("/reg")
     public ModelAndView detail(@RequestParam(value = "boardNo", required = false) Integer boardNo, HttpSession session) throws Exception {
-        
+
         ModelAndView mv = new ModelAndView("pages/reg");
         UserVo useVo = getUserSessionInfo(session);
         //게시글순번이 있으면 등록, 없으면 수정화면 표시

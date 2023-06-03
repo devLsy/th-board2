@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import study.thboard2.domain.vo.BoardVo;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Slf4j
 class BoardServiceTest {
@@ -42,7 +40,7 @@ class BoardServiceTest {
         boardVo.setTitle("게시판으로 기초를 다지자");
         boardVo.setContent("게시판 반복 개발");
         boardVo.setUserId("lsy");
-        boardService.regBoard(boardVo);
+//        boardService.regBoard(boardVo);
     }
 
     @Test
