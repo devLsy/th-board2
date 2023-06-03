@@ -159,15 +159,8 @@ public class BoardController extends CommonController{
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
 
-        log.info("boardVo = [{}]", boardVo);
-
-        for (MultipartFile file : files) {
-            log.info("파일정보 찍혀?");
-            log.info("files = [{}]", file.getOriginalFilename());
-        }
-            log.info("인서트 서비스 찍히니?");
-            boardService.regBoard(boardVo);
-            fileService.saveFile(files, boardVo.getBoardNo());
+        boardService.regBoard(boardVo);
+        fileService.saveFile(files, boardVo.getBoardNo());
 
         return boardVo.getBoardNo();
     }

@@ -29,7 +29,7 @@
                                     <input type="file" name="files" id="files" multiple="multiple">
 <!--                                    <input type="file" name="files" id="files">-->
                                 </div>
-<!--                                    <button type="submit" id="regAjax" class="btn btn-success">등록</button>-->
+<!--                                    <button type="submit" id="regBtn" class="btn btn-success">등록</button>-->
                                     <button type="button" id="regAjax" class="btn btn-success">등록</button>
                                     <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
@@ -265,34 +265,36 @@
             });
     }
 
-    //게시글 작성(ajax)
-    $("#regAjax").on("click", function () {
-        if (!confirm("게시글 등록 할거야?")) {
+    //게시글 작성(submit)
+    $("#regBtn").on("click", function () {
+        if (!confirm("게시글 등록 할거야(submit)?")) {
             return;
         } else {
-            const frm = $("#form")[0];
+            $("#regFrm").submit();
+        }
+    });
+
+    //게시글 작성(ajax)
+    $("#regAjax").on("click", function () {
+        if (!confirm("게시글 등록 할거야(ajax)?")) {
+            return;
+
+        } else {
+            const frm = $("#regFrm")[0];
             const formData = new FormData(frm);
 
-            // let inputFile = $("#files")[0].files[0];
             let inputFile = $("#files");
-            
-            for (let i = 0; i < inputFile.length; i++) {
-                console.log("파일 렝쓰 : " + inputFile.length);
-                if (inputFile[i].files > 0) {
-                    for (let j = 0; j < inputFile[i].files.length; j++) {
-                        console.log(" fileInput[i].files[j] :::"+ inputFile[i].files[j]);
-                        formData.append("files", $("#files")[i].files[j]);
-                    }
-                }
-            }
-            //vo
+
             const params = {
                 title: $("#title").val(),
                 content : $("#content").val()
             };
+
+            //파일
+            formData.append("files", inputFile);
+            //vo
             formData.append("boardVo", new Blob([JSON.stringify(params)], {type: "application/json"}));
 
-            // return;
             $.ajax({
                 url : '/regAjax',
                 type : 'post',
@@ -300,15 +302,9 @@
                 contentType: false,
                 enctype: "multipart/form-data",
                 data: formData,
-                // ansync: false,
                 success: function (result) {
-                    if(result > 0) {
-                        alert(result + "번 게시글이 등록되었단다.");
-                        location.href = "/";
-                    } else {
-                        alert("게시글 등록에 실패했다.");
-                        location.href = "/";
-                    }
+                    alert(result + "번 게시글이 등록되었단다.");
+                    location.href = "/";
                 },
                 error: function (request, status, error) {
                     alert("게시글 등록에 실패했다.");
@@ -317,7 +313,6 @@
                 }
                 });
             }
-
     });
 
     //게시글 수정(ajax)

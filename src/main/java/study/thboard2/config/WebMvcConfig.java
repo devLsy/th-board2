@@ -1,5 +1,6 @@
 package study.thboard2.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,9 +12,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     //인터셉터
     public void addInterceptors(InterceptorRegistry registry) {
-        LoginInterceptor loginInterceptor = new LoginInterceptor();
+        LoginInterceptor loginInterceptor = loginInterceptor();
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login", "/logout", "/register", "/css/**", "/assets/**", "/js/**");
-    }       
+    }
+
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
+    }
 }
