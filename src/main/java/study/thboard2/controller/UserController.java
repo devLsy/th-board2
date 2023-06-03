@@ -2,11 +2,10 @@ package study.thboard2.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import study.thboard2.domain.vo.UserVo;
 import study.thboard2.service.UserService;
 
@@ -73,15 +72,16 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public String login(@RequestParam String userId,
-                        @RequestParam String userPassword,
-                        HttpSession session) throws Exception {
+    @ResponseBody
+    public ResponseEntity<?> login(@RequestParam String userId,
+                                @RequestParam String userPassword,
+                                HttpSession session) throws Exception {
 
         String id = userService.login(userId, userPassword);
-        if(id == "none") return "redirect:/login";
+        if(id == "none") return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
 
         session.setAttribute("id", id);
-        return "redirect:/";
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     /**
