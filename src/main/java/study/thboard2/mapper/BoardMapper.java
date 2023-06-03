@@ -23,6 +23,9 @@ public interface BoardMapper {
     /*게시글 작성*/
     void insertBoard(BoardVo boardVo);
 
+    /* 게시글 작성(merge) */
+    void mergeBoard(BoardVo boardVo);
+
     /*게시글 수정*/
     int updateBoard(BoardVo boardVo);
 

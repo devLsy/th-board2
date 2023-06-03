@@ -70,6 +70,15 @@ public class BoardService extends CommonService{
     }
 
     /**
+     * 게시글 작성(merge)
+     * @param boardVo
+     */
+    @Transactional
+    public void mergeBoard(BoardVo boardVo) throws Exception{
+        boardMapper.mergeBoard(boardVo);
+    }
+
+    /**
      * 게시글 수정
      * @param boardVo
      */

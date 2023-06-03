@@ -166,7 +166,7 @@ public class BoardController extends CommonController{
 
         return "redirect:/";
     }
-
+    
     /**
      * 게시글 수정(ajax)
      * @param boardVo

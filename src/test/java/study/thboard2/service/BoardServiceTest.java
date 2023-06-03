@@ -63,4 +63,16 @@ class BoardServiceTest {
         boardVo.setBoardNo(1);
         boardService.deleteBoard(boardVo.getBoardNo());
     }
+
+    @Test @Commit
+    @DisplayName("게시글_등록(merge)")
+    void insertBoard() throws Exception {
+        BoardVo boardVo = new BoardVo();
+        boardVo.setBoardNo(5001);
+        boardVo.setTitle("드래곤볼");
+        boardVo.setContent("찾아라 드래곤볼!!!");
+        boardVo.setUserId("sysout");
+        //merge test
+        boardService.regBoard2(boardVo);
+    }
 }
