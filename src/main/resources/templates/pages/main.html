@@ -152,11 +152,11 @@
 
                     pageHtml += "<ul class='pagination justify-content-center'>";
 
-                    // if (result.paging.prev) {
-                    //     pageHtml += "<li class='page-item'>";
-                    //     pageHtml += "<a class='page-link' style='cursor: pointer'>Prev</a>";
-                    //     pageHtml += "</li>";
-                    // }
+                    if (result.paging.firstPageNo > 1) {
+                        pageHtml += "<li class='page-item'>";
+                        pageHtml += "<a class='page-link' onclick='movePage(" + result.paging.lastPageNo - 1 + ")' style='cursor: pointer'>Prex</a>";
+                        pageHtml += "</li>";
+                    }   
 
                     for (let i = result.paging.firstPageNo; i <= result.paging.lastPageNo; i++) {
                         pageHtml += "<li class='page-item'>";
@@ -170,11 +170,11 @@
                         }
                     }
 
-                    // if (result.paging.next) {
-                    //     pageHtml += "<li class='page-item'>";
-                    //     pageHtml += "<a class='page-link' style='cursor: pointer'>Next</a>";
-                    //     pageHtml += "</li>";
-                    // }
+                    if (result.paging.currentPage === result.paging.lastPageNo) {
+                        pageHtml += "<li class='page-item'>";
+                        pageHtml += "<a class='page-link' onclick='movePage(" + result.paging.lastPageNo + 1 + ")' style='cursor: pointer'>Next</a>";
+                        pageHtml += "</li>";
+                    }
                     pageHtml += "</ul>";
 
                     $("#pagiNav").html(pageHtml);
