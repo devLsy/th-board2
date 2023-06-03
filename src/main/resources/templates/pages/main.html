@@ -151,7 +151,7 @@
                     let pageHtml = "";
                     pageHtml += "<ul class='pagination justify-content-center'>";
                     pageHtml += "<li class='page-item'>";
-                    pageHtml += "<a class='page-link'>Prev</a>";
+                    pageHtml += "<a class='page-link' style='cursor: pointer'>Prev</a>";
                     pageHtml += "</li>";
 
                     for (let i = result.paging.firstPageNo; i < result.paging.lastPageNo; i++) {
@@ -160,7 +160,7 @@
                         pageHtml += "</li>";
                     }
                     pageHtml += "<li class='page-item'>";
-                    pageHtml += "<a class='page-link'>Next</a>";
+                    pageHtml += "<a class='page-link' style='cursor: pointer'>Next</a>";
                     pageHtml += "</li>";
                     pageHtml += "</ul>";
 
