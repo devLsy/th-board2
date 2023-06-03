@@ -60,21 +60,21 @@
                         </table>
                     </div>
                     <!-- 페이지네이션 start -->
-<!--                    <nav aria-label="Page navigation">-->
+                    <nav id="pagiNav" aria-label="Page navigation">
 <!--                        <ul class="pagination justify-content-center">-->
 <!--                            <li class="page-item">-->
 <!--                                <a class="page-link" th:href="@{/(currentPage=${paging.firstPageNo}-1, type=${search.type}, keyword=${search.keyword})}" th:style="${paging.getFirstPageNo() == 1 ? 'display:none' : ''}">Prev</a>-->
 <!--                            </li>-->
 <!--                            <li class="page-item" id="paginate_btn" th:each="idx: ${#numbers.sequence(paging.firstPageNo, paging.lastPageNo)}" th:classappend="${paging.currentPage} == ${idx} ? active : null">-->
 <!--                                <a class="page-link" th:href="@{/(currentPage=${idx}, type=${search.type}, keyword=${search.keyword})}" th:text="${idx}"></a>-->
-<!--                                <a class="page-link" href="#" th:onclick="|javascript:movePage([[${idx}]])|" th:text="${idx}" style="cursor: pointer"></a>-->
-<!--                                <a class="page-link" href="#" th:onclick="|javascript:test()|"  th:text="${idx}" style="cursor: pointer"></a>-->
+<!--&lt;!&ndash;                                <a class="page-link" href="#" th:onclick="|javascript:movePage([[${idx}]])|" th:text="${idx}" style="cursor: pointer"></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a class="page-link" href="#" th:onclick="|javascript:test()|"  th:text="${idx}" style="cursor: pointer"></a>&ndash;&gt;-->
 <!--                            </li>-->
 <!--                            <li class="page-item">-->
 <!--                                <a class="page-link" th:href="@{/(currentPage=${paging.lastPageNo}+1, type=${search.type}, keyword=${search.keyword})}" th:style="${paging.getLastPageNo() >= 10 ? '' : 'display:none'}">Next</a>-->
 <!--                            </li>-->
 <!--                        </ul>-->
-<!--                    </nav>-->
+                    </nav>
                     <!-- // 페이지네이션 end -->
                     </form>
                 </div>
@@ -125,25 +125,46 @@
                 data: params,
                 success: function (result) {
                     let boardHtml = "";
-                    $.each(result, function (key, value) {
-                        boardHtml += "<tr>";
-                        boardHtml += "<td>" + value.boardNo;
-                        boardHtml += "</td>";
-                        boardHtml += "<td>" + value.title;
-                        boardHtml += "</td>";
-                        boardHtml += "<td>" + value.content;
-                        boardHtml += "</td>";
-                        boardHtml += "<td>" + value.userId;
-                        boardHtml += "</td>";
-                        boardHtml += "<td>" + value.regDate;
-                        boardHtml += "</td>";
-                        boardHtml += "<td>" + value.modDate;
-                        boardHtml += "</td>";
-                        boardHtml += "</tr>";
-                    });
+
+                    let list = result.list;
+                    let paging = result.paging;
+
+                    for (let i = 0; i < list.length; i++) {
+                            boardHtml += "<tr>";
+                            boardHtml += "<td>" + list[i].boardNo;
+                            boardHtml += "</td>";
+                            boardHtml += "<td>" + list[i].title;
+                            boardHtml += "</td>";
+                            boardHtml += "<td>" + list[i].content;
+                            boardHtml += "</td>";
+                            boardHtml += "<td>" + list[i].userId;
+                            boardHtml += "</td>";
+                            boardHtml += "<td>" + list[i].regDate;
+                            boardHtml += "</td>";
+                            boardHtml += "<td>" + list[i].modDate;
+                            boardHtml += "</td>";
+                            boardHtml += "</tr>";
+                    }
                     $("#boardBody").html(boardHtml);
 
-                    console.log(result);
+                    //페이지네이션 draw
+                    let pageHtml = "";
+                    pageHtml += "<ul class='pagination justify-content-center'>";
+                    pageHtml += "<li class='page-item'>";
+                    pageHtml += "<a class='page-link'>Prev</a>";
+                    pageHtml += "</li>";
+
+                    for (let i = result.paging.firstPageNo; i < result.paging.lastPageNo; i++) {
+                        pageHtml += "<li class='page-item'>";
+                    }
+                    pageHtml += "<li class='page-item'>";
+                    pageHtml += "<a class='page-link'>Next</a>";
+                    pageHtml += "</li>";
+                    pageHtml += "</ul>";
+
+                    $("#pagiNav").html(pageHtml);
+
+
                 },
                 error: function (request, status, error) {
                     console.log(error);

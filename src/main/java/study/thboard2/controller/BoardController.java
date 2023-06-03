@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -66,6 +67,7 @@ public class BoardController extends CommonController{
     public ResponseEntity<?> listAjax(@ModelAttribute("commonVo") CommonVo commonVo) throws Exception {
         ModelAndView mv = new ModelAndView("pages/main");
 
+        Map<String, Object> map = new HashMap<>();
         //전체 게시글 수
         int totalCnt = boardService.getBoardCnt(commonVo);
         //페이징 처리 후 반환 객체
@@ -76,7 +78,9 @@ public class BoardController extends CommonController{
 
         List<BoardVo> boardList = boardService.getBoardList(commonVo);
 
-        return new ResponseEntity<>(boardList, HttpStatus.OK);
+        map.put("list", boardList);
+        map.put("paging", paging);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     /**
