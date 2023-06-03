@@ -90,14 +90,17 @@ public class BoardController extends CommonController{
      * @return
      */
     @GetMapping("/reg")
-    public ModelAndView detail(@RequestParam(value = "boardNo", required = false) Integer boardNo) throws Exception {
+    public ModelAndView detail(@RequestParam(value = "boardNo", required = false) Integer boardNo, HttpSession session) throws Exception {
+        
         ModelAndView mv = new ModelAndView("pages/reg");
+        UserVo useVo = getUserSessionInfo(session);
         //게시글순번이 있으면 등록, 없으면 수정화면 표시
         if(boardNo != null) {
             BoardVo boardInfo = boardService.selectBoardDetail(boardNo);
             List<ReplyVo> replyList = replyService.getReplyList(boardNo);
             if (boardInfo != null) {
                 mv.addObject("info", boardInfo);
+                mv.addObject("userVo", useVo);
                 mv.addObject("replyList", replyList);
             }
             List<FileVo> fileList = fileService.getFileList(boardNo);

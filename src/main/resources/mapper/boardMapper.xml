@@ -15,7 +15,7 @@
     </if>
     <!-- 작성자 -->
     <if test="type == 'W'.toString()">
-        AND WRITER LIKE '%' || #{keyword} || '%'
+        AND USER_ID LIKE '%' || #{keyword} || '%'
     </if>
 </sql>
 
@@ -93,13 +93,13 @@
     <!--게시글 상세-->
     <select id="selectBoardDetail" parameterType="map" resultType="BoardVo">
         /* 게시글 상세 조회 */
-        SELECT BOARD_NO
-             , TITLE
-             , CONTENT
-             , USER_ID
-             , USE_YN
-             , REG_DATE
-             , MOD_DATE
+        SELECT BOARD_NO AS boardNo
+             , TITLE AS title
+             , CONTENT AS content
+             , USER_ID AS userId
+             , USE_YN AS useYn
+             , REG_DATE AS regDate
+             , MOD_DATE AS modDate
           FROM BOARD_INFO
          WHERE 1=1
            AND BOARD_NO = #{boardNo}

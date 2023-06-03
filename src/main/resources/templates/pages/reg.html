@@ -89,10 +89,10 @@
                                         <p th:text="${file.fileOrgName}"></p>
                                     </a>
                                 </div>
-                                <th:block th:if="${info.userId == session.id}">
+                                <th:block th:if="${info.userId == userVo.userId}">
                                 <button type="button" id="updateBoardBtn" class="btn btn-success">수정</button>
                                 </th:block>
-                                <th:block th:unless="${info.userId == session.id}">
+                                <th:block th:unless="${info.userId == userVo.userId}">
                                 </th:block>
                                 <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
