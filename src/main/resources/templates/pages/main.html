@@ -66,8 +66,8 @@
                                 <a class="page-link" th:href="@{/(currentPage=${paging.firstPageNo}-1, type=${search.type}, keyword=${search.keyword})}" th:style="${paging.getFirstPageNo() == 1 ? 'display:none' : ''}">Prev</a>
                             </li>
                             <li class="page-item" id="paginate_btn" th:each="idx: ${#numbers.sequence(paging.firstPageNo, paging.lastPageNo)}" th:classappend="${paging.currentPage} == ${idx} ? active : null">
-                                <a class="page-link" th:href="@{/(currentPage=${idx}, type=${search.type}, keyword=${search.keyword})}" th:text="${idx}"></a>
-<!--                                <a class="page-link" href="#" th:onclick="|javascript:movePage([[${idx}]])|" th:text="${idx}" style="cursor: pointer"></a>-->
+<!--                                <a class="page-link" th:href="@{/(currentPage=${idx}, type=${search.type}, keyword=${search.keyword})}" th:text="${idx}"></a>-->
+                                <a class="page-link" href="#" th:onclick="|javascript:movePage([[${idx}]])|" th:text="${idx}" style="cursor: pointer"></a>
 <!--                                <a class="page-link" href="#" th:onclick="|javascript:test()|"  th:text="${idx}" style="cursor: pointer"></a>-->
                             </li>
                             <li class="page-item">
@@ -108,23 +108,7 @@
 
         //페이징
         function movePage(pageNum) {
-            // console.log("pageNum : " + pageNum);
-            let params = {currentPage : pageNum}
-
-            $.ajax({
-                url : '/listAjax',
-                type : 'post',
-                dataType : 'json',
-                contentType : "application/json",
-                data: JSON.stringify(params),
-                ansync: false,
-                success: function (result) {
-                    // TODO 동적으로 테이블 그려야 함
-                },
-                error: function (request, status, error) {
-                    console.log(error);
-                }
-            });
+            getList(searchParam, pageNum);
         }
 
         //게시글 삭제

@@ -73,7 +73,7 @@ public class BoardController extends CommonController{
 
         commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
         commonVo.setLastRecordIndex(paging.getLastRecordIndex());
-            
+
         List<BoardVo> boardList = boardService.getBoardList(commonVo);
 
         return new ResponseEntity<>(boardList, HttpStatus.OK);
