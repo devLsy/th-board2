@@ -10,7 +10,7 @@
             <h1 class="mt-4">게시글 목록</h1>
                 <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get">
                 <div class="input-group">
-                    <select name="type" th:field="${search.type}">
+                    <select name="type" id="searchBox" th:field="${search.type}">
                         <option value="">선택해라</option>
                         <option value="W">작성자</option>
                         <option value="T">제목</option>
@@ -87,6 +87,12 @@
     <script layout:fragment="script" th:inline="javascript" type="text/javascript">
         $(document).ready(function () {
 
+            $("#btnSearch").on("click", function () {
+                if ($("#searchBox option:selected").val() === "") {
+                        alert("키워드를 선택하라니까?");
+                        return;
+                    }
+            });
         });
 
         //페이징
@@ -115,6 +121,9 @@
             const boardNo = $("<input>").attr("type", "hidden").attr("name", "boardNo").val(no);
             $("#frm").append(boardNo).submit();
         }
+
+
+
     </script>
 
 </div>
