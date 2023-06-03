@@ -14,7 +14,6 @@ public class BoardVo extends CommonVo{
     @NotBlank(message = "제목은 꼭 입력해야 해")
     private String title;                       //제목
 
-    @NotBlank(message = "아이디도 반드시 알아야겠지?")
     private String userId;                      //작성자
 
     @NotBlank(message = "내용도 반드시 알아야겠지?")

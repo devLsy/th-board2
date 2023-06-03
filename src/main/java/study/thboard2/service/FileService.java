@@ -38,6 +38,7 @@ public class FileService {
 
         //parameter 검증 실패 시
         if (br.hasErrors()) {
+            log.info("검증 실패");
             invokeErrors(this.getClass().getName(), br);
         }
 
