@@ -81,9 +81,11 @@ public class BoardService extends CommonService{
     /**
      * 게시글 삭제
      * @param boardNo
+     * @return
+     * @throws Exception
      */
     @Transactional
-    public void deleteBoard(Integer boardNo) throws Exception{
-        boardMapper.deleteBoard(boardNo);
+    public int deleteBoard(Integer boardNo) throws Exception{
+        return boardMapper.deleteBoard(boardNo);
     }
 }

@@ -27,5 +27,5 @@ public interface BoardMapper {
     int updateBoard(BoardVo boardVo);
 
     /*게시글 삭제*/
-    void deleteBoard(@Param("boardNo") Integer boardNo);
+    int deleteBoard(@Param("boardNo") Integer boardNo);
 }

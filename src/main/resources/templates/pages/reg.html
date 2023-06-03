@@ -54,16 +54,32 @@
                                 <input type="hidden" name="boardNo" id="boardNo" th:value="${boardNo}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
+                                        <th:block th:if="${info.userId == session.id}">
                                         <div class="form-floating mb-3 mb-md-0">
                                             <input class="form-control" id="title" name="title" type="text" placeholder="제목을 입력해라." th:value="${info?.title}"/>
                                             <label for="title">제목</label>
                                         </div>
+                                        </th:block>
+                                        <th:block th:unless="${info.userId == session.id}">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <input class="form-control" id="title" name="title" type="text" placeholder="제목을 입력해라." th:value="${info?.title}" disabled/>
+                                            <label for="title">제목</label>
+                                        </div>
+                                        </th:block>
                                     </div>
                                 </div>
+                                <th:block th:if="${info.userId == session.id}">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control h-25" rows="10" id="content" name="content" th:text="${info?.content}"></textarea>
                                     <label for="content">내용</label>
                                 </div>
+                                </th:block>
+                                <th:block th:unless="${info.userId == session.id}">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control h-25" rows="10" id="content" name="content" th:text="${info?.content}" disabled></textarea>
+                                    <label for="content">내용</label>
+                                </div>
+                                </th:block>
     
                                 <!--이미지 미리보기-->
                                 <div th:each="file : ${files} ">
@@ -73,7 +89,11 @@
                                         <p th:text="${file.fileOrgName}"></p>
                                     </a>
                                 </div>
+                                <th:block th:if="${info.userId == session.id}">
                                 <button type="button" id="updateBoardBtn" class="btn btn-success">수정</button>
+                                </th:block>
+                                <th:block th:unless="${info.userId == session.id}">
+                                </th:block>
                                 <a th:href="@{/}" class="btn btn-info">목록</a>
                             </form>
                         </div>
@@ -237,8 +257,10 @@
                 data : params,
                 ansync: false,
                 success: function (result) {
-                    alert("삭제되었습니다.");
-                    getReplyList();     
+                    if (result === 1) {
+                        alert("삭제되었습니다.");
+                        getReplyList();
+                    }
                 },
                 error: function (request, status, error) {
                     console.log(error);
