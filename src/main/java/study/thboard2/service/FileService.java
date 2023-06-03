@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import study.thboard2.domain.vo.FileVo;
 import study.thboard2.mapper.FileMapper;
@@ -13,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import static study.thboard2.common.utils.ValidationUtil.invokeErrors;
 
 @Service
 @Slf4j
@@ -31,7 +34,12 @@ public class FileService {
      * @param boardNo
      */
     @Transactional
-    public void saveFile(List<MultipartFile> files, Integer boardNo) throws IOException, Exception {
+    public void saveFile(List<MultipartFile> files, Integer boardNo, BindingResult br) throws IOException, Exception {
+
+        //parameter 검증 실패 시
+        if (br.hasErrors()) {
+            invokeErrors(this.getClass().getName(), br);
+        }
 
         if (!files.isEmpty()) {
             FileVo fileVo;

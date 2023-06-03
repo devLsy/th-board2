@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import study.thboard2.domain.vo.BoardVo;
 import study.thboard2.domain.vo.CommonVo;
 import study.thboard2.domain.vo.PaginationInfo;
 import study.thboard2.mapper.BoardMapper;
 
 import java.util.List;
+
+import static study.thboard2.common.utils.ValidationUtil.invokeErrors;
 
 @Service
 @Slf4j
@@ -52,9 +55,16 @@ public class BoardService extends CommonService{
     /**
      * 게시글 작성
      * @param boardVo
+     * @param br
      */
     @Transactional
-    public void regBoard(BoardVo boardVo) throws Exception{
+    public void regBoard(BoardVo boardVo, BindingResult br) throws Exception{
+
+        //parameter 검증 실패 시
+        if (br.hasErrors()) {
+            invokeErrors(this.getClass().getName(), br);
+        }
+
         boardMapper.insertBoard(boardVo);
     }
 

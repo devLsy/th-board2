@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +16,7 @@ import study.thboard2.service.FileService;
 import study.thboard2.service.ReplyService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -113,15 +115,16 @@ public class BoardController extends CommonController{
      * 게시글 등록 처리
      * @param boardVo
      * @param files
+     * @param br
      * @return
      */
     @PostMapping("/reg")
-    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, HttpSession session) throws Exception {
+    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, BindingResult br, HttpSession session) throws Exception {
 
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
-        boardService.regBoard(boardVo);
-        fileService.saveFile(files, boardVo.getBoardNo());
+        boardService.regBoard(boardVo, br);
+        fileService.saveFile(files, boardVo.getBoardNo(), br);
 
         return "redirect:/";
     }
@@ -130,19 +133,23 @@ public class BoardController extends CommonController{
      * 게시글 등록 처리(비동기)
      * @param boardVo
      * @param files
+     * @param br
+     * @param session
      * @return
+     * @throws Exception
      */
     @PostMapping(value = "/regAjax")
     @ResponseBody
-    public Integer regAjax(@RequestPart(value = "boardVo") BoardVo boardVo,
+    public Integer regAjax(@Valid @RequestPart(value = "boardVo") BoardVo boardVo,
                            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+                           BindingResult br,
                            HttpSession session) throws Exception {
 
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
-
-        boardService.regBoard(boardVo);
-        fileService.saveFile(files, boardVo.getBoardNo());
+        
+        boardService.regBoard(boardVo, br);
+        fileService.saveFile(files, boardVo.getBoardNo(), br);
 
         return boardVo.getBoardNo();
     }
