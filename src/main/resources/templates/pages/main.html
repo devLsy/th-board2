@@ -160,8 +160,14 @@
 
                     for (let i = result.paging.firstPageNo; i <= result.paging.lastPageNo; i++) {
                         pageHtml += "<li class='page-item'>";
-                        pageHtml += "<a class='page-link' onclick='movePage(" + i + ")' style='cursor: pointer'>" + i + "</a>";
-                        pageHtml += "</li>";
+
+                        if (result.paging.currentPage === i) {
+                            pageHtml += "<a class='page-link active' onclick='movePage(" + i + ")' style='cursor: pointer'>" + i + "</a>";
+                            pageHtml += "</li>";
+                        } else {
+                            pageHtml += "<a class='page-link' onclick='movePage(" + i + ")' style='cursor: pointer'>" + i + "</a>";
+                            pageHtml += "</li>";
+                        }
                     }
 
                     // if (result.paging.next) {
