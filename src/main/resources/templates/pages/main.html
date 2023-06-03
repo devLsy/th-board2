@@ -128,7 +128,7 @@
 
                     let list = result.list;
                     let paging = result.paging;
-
+                    //테이블 draw
                     for (let i = 0; i < list.length; i++) {
                             boardHtml += "<tr>";
                             boardHtml += "<td>" + list[i].boardNo;
@@ -156,6 +156,8 @@
 
                     for (let i = result.paging.firstPageNo; i < result.paging.lastPageNo; i++) {
                         pageHtml += "<li class='page-item'>";
+                        pageHtml += "<a class='page-link' style='cursor: pointer'>" + i + "</a>";
+                        pageHtml += "</li>";
                     }
                     pageHtml += "<li class='page-item'>";
                     pageHtml += "<a class='page-link'>Next</a>";
