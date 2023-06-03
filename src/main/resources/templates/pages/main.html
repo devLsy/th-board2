@@ -149,19 +149,26 @@
 
                     //페이지네이션 draw
                     let pageHtml = "";
-                    pageHtml += "<ul class='pagination justify-content-center'>";
-                    pageHtml += "<li class='page-item'>";
-                    pageHtml += "<a class='page-link' style='cursor: pointer'>Prev</a>";
-                    pageHtml += "</li>";
 
-                    for (let i = result.paging.firstPageNo; i < result.paging.lastPageNo; i++) {
+                    pageHtml += "<ul class='pagination justify-content-center'>";
+
+                    // if (result.paging.prev) {
+                    //     pageHtml += "<li class='page-item'>";
+                    //     pageHtml += "<a class='page-link' style='cursor: pointer'>Prev</a>";
+                    //     pageHtml += "</li>";
+                    // }
+
+                    for (let i = result.paging.firstPageNo; i <= result.paging.lastPageNo; i++) {
                         pageHtml += "<li class='page-item'>";
-                        pageHtml += "<a class='page-link' style='cursor: pointer'>" + i + "</a>";
+                        pageHtml += "<a class='page-link' onclick='movePage(" + i + ")' style='cursor: pointer'>" + i + "</a>";
                         pageHtml += "</li>";
                     }
-                    pageHtml += "<li class='page-item'>";
-                    pageHtml += "<a class='page-link' style='cursor: pointer'>Next</a>";
-                    pageHtml += "</li>";
+
+                    // if (result.paging.next) {
+                    //     pageHtml += "<li class='page-item'>";
+                    //     pageHtml += "<a class='page-link' style='cursor: pointer'>Next</a>";
+                    //     pageHtml += "</li>";
+                    // }
                     pageHtml += "</ul>";
 
                     $("#pagiNav").html(pageHtml);
