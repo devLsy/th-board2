@@ -58,29 +58,25 @@ public class BoardController extends CommonController{
 
     /**
      * 게시글 목록(ajax)
-//     * @param commonVo
+     * @param commonVo
      * @return
      */
     @PostMapping("listAjax")
     @ResponseBody
-//    public ModelAndView listAjax(@ModelAttribute CommonVo commonVo) {
-    public void listAjax(@RequestBody HashMap<String, Object> map) throws Exception {
+    public ResponseEntity<?> listAjax(@ModelAttribute("commonVo") CommonVo commonVo) throws Exception {
         ModelAndView mv = new ModelAndView("pages/main");
 
-        log.info("currentPage : " + map.get("currentPage"));
         //전체 게시글 수
-        CommonVo commonVo = new CommonVo();
-        commonVo.setCurrentPage((Integer) map.get("currentPage"));
         int totalCnt = boardService.getBoardCnt(commonVo);
         //페이징 처리 후 반환 객체
-        commonVo.setTotalCount(totalCnt);
         PaginationInfo paging = boardService.getPaginationInfo(commonVo);
 
         commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
         commonVo.setLastRecordIndex(paging.getLastRecordIndex());
-
+            
         List<BoardVo> boardList = boardService.getBoardList(commonVo);
 
+        return new ResponseEntity<>(boardList, HttpStatus.OK);
     }
 
     /**

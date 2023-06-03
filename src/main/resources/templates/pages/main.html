@@ -10,13 +10,13 @@
             <h1 class="mt-4">게시글 목록</h1>
                 <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get">
                 <div class="input-group">
-                    <select name="type" id="searchBox" th:field="${search.type}">
+                    <select name="type" id="type" th:field="${search.type}">
                         <option value="">선택해라</option>
                         <option value="W">작성자</option>
                         <option value="T">제목</option>
                         <option value="C">내용</option>
                     </select>
-                    <input class="form-control" th:field="${search.keyword}" type="text" name="keyword" placeholder="검색어를 입력해라." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <input class="form-control" th:field="${search.keyword}" type="text" id="keyword" name="keyword" placeholder="검색어를 입력해라." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-primary" id="btnSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
@@ -27,7 +27,7 @@
                     </div>
                     <form id="frm" action="/del" method="post">
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table id="boardList" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>순번</th>
@@ -39,23 +39,23 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!--데이터가 있을 때-->
-                                <th:block th:if="${#lists.size(list) >0}">
-                                <tr th:each="list : ${list}">
-                                    <td th:text="${list.no}"></td>
-                                    <td><a th:href="@{/reg(boardNo=${list.boardNo}, type=${search.type}, keyword=${search.keyword})}" th:text="${list.title}"></a></td>
-                                    <td th:text="${list.content}"></td>
-                                    <td th:text="${list.userId}"></td>
-                                    <td th:text="${list.regDate}"></td>
-                                    <td th:text="${list.modDate}"></td>
-                                    <td><a href="#" th:onclick="|javascript:del('${list.boardNo}')|" class="btn btn-danger">삭제</a></td>
-                                </tr>
-                                </th:block>
-                                <!--데이터가 없을 때-->
-                                <th:block th:unless="${#lists.size(list) >0}">
-                                <tr><td colspan="6" style="text-align: center">데이터가 없다.</td></tr>
-                                </th:block>
+                            <tbody id="boardBody">
+<!--                                &lt;!&ndash;데이터가 있을 때&ndash;&gt;-->
+<!--                                <th:block th:if="${#lists.size(list) >0}">-->
+<!--                                <tr th:each="list : ${list}">-->
+<!--                                    <td th:text="${list.no}"></td>-->
+<!--                                    <td><a th:href="@{/reg(boardNo=${list.boardNo}, type=${search.type}, keyword=${search.keyword})}" th:text="${list.title}"></a></td>-->
+<!--                                    <td th:text="${list.content}"></td>-->
+<!--                                    <td th:text="${list.userId}"></td>-->
+<!--                                    <td th:text="${list.regDate}"></td>-->
+<!--                                    <td th:text="${list.modDate}"></td>-->
+<!--                                    <td><a href="#" th:onclick="|javascript:del('${list.boardNo}')|" class="btn btn-danger">삭제</a></td>-->
+<!--                                </tr>-->
+<!--                                </th:block>-->
+<!--                                &lt;!&ndash;데이터가 없을 때&ndash;&gt;-->
+<!--                                <th:block th:unless="${#lists.size(list) >0}">-->
+<!--                                <tr><td colspan="6" style="text-align: center">데이터가 없다.</td></tr>-->
+<!--                                </th:block>-->
                             </tbody>
                         </table>
                     </div>
@@ -85,15 +85,25 @@
     </main>
 
     <script layout:fragment="script" th:inline="javascript" type="text/javascript">
+
+        const defaultParam = { type: "", keyword: ""};
+        let searchParam = defaultParam;
+
         $(document).ready(function () {
 
             $("#btnSearch").on("click", function (e) {
                 e.preventDefault();
-                if ($("#searchBox option:selected").val() === "") {
+                if ($("#type option:selected").val() === "") {
                         alert("키워드를 선택하라니까?");
                         return;
-                    }
+                    } else {
+                        console.log("검색한다?");
+                        searchParam = {type: $("#type").val(), keyword: $("#keyword").val() }
+                        getList(searchParam, 1);
+                }
             });
+            //초기 목록은 1페이지로 고정
+            getList(defaultParam, 1);
         });
 
         //페이징
@@ -123,8 +133,39 @@
             $("#frm").append(boardNo).submit();
         }
 
+        //게시글 목록
+        function getList(params, currentPage) {
+            $.ajax({
+                url : '/listAjax?currentPage=' + currentPage,
+                type : 'post',
+                data: params,
+                success: function (result) {
+                    let boardHtml = "";
+                    $.each(result, function (key, value) {
+                        boardHtml += "<tr>";
+                        boardHtml += "<td>" + value.boardNo;
+                        boardHtml += "</td>";
+                        boardHtml += "<td>" + value.title;
+                        boardHtml += "</td>";
+                        boardHtml += "<td>" + value.content;
+                        boardHtml += "</td>";
+                        boardHtml += "<td>" + value.userId;
+                        boardHtml += "</td>";
+                        boardHtml += "<td>" + value.regDate;
+                        boardHtml += "</td>";
+                        boardHtml += "<td>" + value.modDate;
+                        boardHtml += "</td>";
+                        boardHtml += "</tr>";
+                    });
+                    $("#boardBody").html(boardHtml);
 
-
+                    console.log(result);
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
+        }
     </script>
 
 </div>
