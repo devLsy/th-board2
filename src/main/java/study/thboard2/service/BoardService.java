@@ -74,8 +74,8 @@ public class BoardService extends CommonService{
      * @param boardVo
      */
     @Transactional
-    public void modifyBoard(BoardVo boardVo) throws Exception{
-        boardMapper.updateBoard(boardVo);
+    public int modifyBoard(BoardVo boardVo) throws Exception{
+        return boardMapper.updateBoard(boardVo);
     }
 
     /**

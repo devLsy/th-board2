@@ -182,8 +182,8 @@ public class BoardController extends CommonController{
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
 
-        boardService.modifyBoard(boardVo);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int result = boardService.modifyBoard(boardVo);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
