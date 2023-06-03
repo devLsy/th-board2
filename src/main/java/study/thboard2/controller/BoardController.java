@@ -189,12 +189,11 @@ public class BoardController extends CommonController{
      * @param boardNo
      * @return
      */
-    @ResponseBody
     @PostMapping("/del")
-    public ResponseEntity<?> del(@RequestParam Integer boardNo) throws Exception {
+    public String del(@RequestParam Integer boardNo) throws Exception {
 
         int result = boardService.deleteBoard(boardNo);
         log.info("result = [{}]", result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return "redirect:/";
     }
 }
