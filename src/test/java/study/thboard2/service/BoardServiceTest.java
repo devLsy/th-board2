@@ -73,6 +73,6 @@ class BoardServiceTest {
         boardVo.setContent("찾아라 드래곤볼!!!");
         boardVo.setUserId("sysout");
         //merge test
-        boardService.regBoard2(boardVo);
+        boardService.mergeBoard(boardVo);
     }
 }
