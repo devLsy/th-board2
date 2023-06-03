@@ -39,6 +39,7 @@ public class FileService {
             for (MultipartFile file : files) {
                 //원본파일명
                 String fileOrgName = file.getOriginalFilename();
+                log.info("file orgName = [{}]", file.getOriginalFilename());
                 //파일 UUID
                 String fileUUid = UUID.randomUUID().toString();
                 //파일 확장자

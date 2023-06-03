@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import study.thboard2.common.interceptor.LoginInterceptor;
 import study.thboard2.domain.vo.*;
 import study.thboard2.service.BoardService;
 import study.thboard2.service.FileService;
@@ -35,26 +34,23 @@ public class BoardController extends CommonController{
      * @return
      */
     @GetMapping("")
-    public ModelAndView list(@ModelAttribute CommonVo commonVo) {
+    public ModelAndView list(@ModelAttribute CommonVo commonVo) throws Exception {
         ModelAndView mv = new ModelAndView("pages/main");
 
-        try {
-            //전체 게시글 수
-            int totalCnt = boardService.getBoardCnt(commonVo);
-            //페이징 처리 후 반환 객체
-            commonVo.setTotalCount(totalCnt);
-            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
+        //전체 게시글 수
+        int totalCnt = boardService.getBoardCnt(commonVo);
+        //페이징 처리 후 반환 객체
+        commonVo.setTotalCount(totalCnt);
+        PaginationInfo paging = boardService.getPaginationInfo(commonVo);
 
-            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
-            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
+        commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
+        commonVo.setLastRecordIndex(paging.getLastRecordIndex());
 
-            List<BoardVo> boardList = boardService.getBoardList(commonVo);
-            mv.addObject("search", commonVo);
-            mv.addObject("list", boardList);
-            mv.addObject("paging", paging);
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
+        List<BoardVo> boardList = boardService.getBoardList(commonVo);
+        mv.addObject("search", commonVo);
+        mv.addObject("list", boardList);
+        mv.addObject("paging", paging);
+
         return mv;
     }
 
@@ -67,31 +63,23 @@ public class BoardController extends CommonController{
     @PostMapping("listAjax")
     @ResponseBody
 //    public ModelAndView listAjax(@ModelAttribute CommonVo commonVo) {
-    public void listAjax(@RequestBody HashMap<String, Object> map) {
+    public void listAjax(@RequestBody HashMap<String, Object> map) throws Exception {
         ModelAndView mv = new ModelAndView("pages/main");
 
-        try {
+        log.info("currentPage : " + map.get("currentPage"));
+        //전체 게시글 수
+        CommonVo commonVo = new CommonVo();
+        commonVo.setCurrentPage((Integer) map.get("currentPage"));
+        int totalCnt = boardService.getBoardCnt(commonVo);
+        //페이징 처리 후 반환 객체
+        commonVo.setTotalCount(totalCnt);
+        PaginationInfo paging = boardService.getPaginationInfo(commonVo);
 
-            log.info("currentPage : " + map.get("currentPage"));
+        commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
+        commonVo.setLastRecordIndex(paging.getLastRecordIndex());
 
-            //전체 게시글 수
-            CommonVo commonVo = new CommonVo();
-            commonVo.setCurrentPage((Integer) map.get("currentPage"));
-            int totalCnt = boardService.getBoardCnt(commonVo);
-//            //페이징 처리 후 반환 객체
-            commonVo.setTotalCount(totalCnt);
-            PaginationInfo paging = boardService.getPaginationInfo(commonVo);
+        List<BoardVo> boardList = boardService.getBoardList(commonVo);
 
-            commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
-            commonVo.setLastRecordIndex(paging.getLastRecordIndex());
-
-            List<BoardVo> boardList = boardService.getBoardList(commonVo);
-//            mv.addObject("search", commonVo);
-//            mv.addObject("list", boardList);
-//            mv.addObject("paging", paging);
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
     }
 
     /**
@@ -128,19 +116,13 @@ public class BoardController extends CommonController{
      * @return
      */
     @PostMapping("/reg")
-    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, HttpSession session) {
-        try {
-            UserVo userInfo = getUserSessionInfo(session);
-            boardVo.setUserId(userInfo.getUserId());
-            boardService.regBoard(boardVo);
-            fileService.saveFile(files, boardVo.getBoardNo());
+    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, HttpSession session) throws Exception {
 
-        } catch (IOException io) {
-            log.info("Exception => [{}] ", io.getMessage());
+        UserVo userInfo = getUserSessionInfo(session);
+        boardVo.setUserId(userInfo.getUserId());
+        boardService.regBoard(boardVo);
+        fileService.saveFile(files, boardVo.getBoardNo());
 
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
         return "redirect:/";
     }
 
@@ -154,7 +136,7 @@ public class BoardController extends CommonController{
     @ResponseBody
     public Integer regAjax(@RequestPart(value = "boardVo") BoardVo boardVo,
                            @RequestPart(value = "files", required = false) List<MultipartFile> files,
-                           HttpSession session) throws IOException, Exception {
+                           HttpSession session) throws Exception {
 
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
@@ -171,14 +153,12 @@ public class BoardController extends CommonController{
      * @return
      */
     @PostMapping("/mod")
-    public String modify(@ModelAttribute BoardVo boardVo, HttpSession session) {
-        try {
-            UserVo userInfo = getUserSessionInfo(session);
-            boardVo.setUserId(userInfo.getUserId());
-            boardService.modifyBoard(boardVo);
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
+    public String modify(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception {
+
+        UserVo userInfo = getUserSessionInfo(session);
+        boardVo.setUserId(userInfo.getUserId());
+        boardService.modifyBoard(boardVo);
+
         return "redirect:/";
     }
 
@@ -191,8 +171,10 @@ public class BoardController extends CommonController{
     @ResponseBody
     @PostMapping(value = "/modifyAjax", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> modifyAjax(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception {
+
         UserVo userInfo = getUserSessionInfo(session);
         boardVo.setUserId(userInfo.getUserId());
+
         boardService.modifyBoard(boardVo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -203,12 +185,9 @@ public class BoardController extends CommonController{
      * @return
      */
     @PostMapping("/del")
-    public String del(@RequestParam Integer boardNo) {
-        try {
-            boardService.deleteBoard(boardNo);
-        } catch (Exception e) {
-            log.info("Exception => [{}] ", e.getMessage());
-        }
+    public String del(@RequestParam Integer boardNo) throws Exception {
+
+        boardService.deleteBoard(boardNo);
         return "redirect:/";
     }
 }
