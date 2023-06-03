@@ -270,20 +270,29 @@
         if (!confirm("게시글 등록 할거야?")) {
             return;
         } else {
+            const frm = $("#form")[0];
+            const formData = new FormData(frm);
 
-            let files = $("#files")[0].files[0];
+            // let inputFile = $("#files")[0].files[0];
+            let inputFile = $("#files");
+            
+            for (let i = 0; i < inputFile.length; i++) {
+                console.log("파일 렝쓰 : " + inputFile.length);
+                if (inputFile[i].files > 0) {
+                    for (let j = 0; j < inputFile[i].files.length; j++) {
+                        console.log(" fileInput[i].files[j] :::"+ inputFile[i].files[j]);
+                        formData.append("files", $("#files")[i].files[j]);
+                    }
+                }
+            }
             //vo
             const params = {
                 title: $("#title").val(),
                 content : $("#content").val()
             };
-            
-            const frm = $("#form")[0];
-            const formData = new FormData(frm);
-
-            formData.append("files", files);
             formData.append("boardVo", new Blob([JSON.stringify(params)], {type: "application/json"}));
 
+            // return;
             $.ajax({
                 url : '/regAjax',
                 type : 'post',
@@ -291,9 +300,9 @@
                 contentType: false,
                 enctype: "multipart/form-data",
                 data: formData,
-                ansync: false,
+                // ansync: false,
                 success: function (result) {
-                    if(result != null || result != "" || result != undefined) {
+                    if(result > 0) {
                         alert(result + "번 게시글이 등록되었단다.");
                         location.href = "/";
                     } else {
@@ -302,6 +311,8 @@
                     }
                 },
                 error: function (request, status, error) {
+                    alert("게시글 등록에 실패했다.");
+                    location.href = "/";
                     console.log(error);
                 }
                 });
