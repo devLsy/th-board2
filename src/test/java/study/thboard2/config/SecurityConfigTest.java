@@ -24,7 +24,8 @@ class SecurityConfigTest {
         //givin
         String rawPw = "1234";
         String encodePw = securityConfig.bCryptPasswordEncoder().encode(rawPw);
-        String inputPw = "123";
+        log.info("encodePw : " + encodePw);
+        String inputPw = "1234";
 
         //when
         boolean check = securityConfig.bCryptPasswordEncoder().matches(inputPw, encodePw);
