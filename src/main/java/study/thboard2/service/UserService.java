@@ -2,6 +2,7 @@ package study.thboard2.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.thboard2.domain.vo.UserVo;
@@ -16,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserMapper userMapper;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 사용자 목록 조회
@@ -33,9 +35,11 @@ public class UserService {
      */
     @Transactional
     public void regUser(UserVo userVo) throws Exception{
+        //비밀번호 암호화
+        userVo.hashPassword(bCryptPasswordEncoder);
         userMapper.insertUser(userVo);
     }
-
+    
     /**
      * 아이디/비밀번호 확인
      * @param userId
@@ -44,7 +48,7 @@ public class UserService {
      */
     public String login(String userId, String userPassword) throws Exception{
         UserVo userInfo = userMapper.selectByUserId(userId);
-        return (userInfo != null && userInfo.getUserPassword().equals(userPassword)) ? userInfo.getUserId() : "none";
+        return (userInfo.checkPassword(userPassword, bCryptPasswordEncoder) == true ? userInfo.getUserId() : "none");
     }
 
     /**
