@@ -39,43 +39,12 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="boardBody">
-<!--                                &lt;!&ndash;데이터가 있을 때&ndash;&gt;-->
-<!--                                <th:block th:if="${#lists.size(list) >0}">-->
-<!--                                <tr th:each="list : ${list}">-->
-<!--                                    <td th:text="${list.no}"></td>-->
-<!--                                    <td><a th:href="@{/reg(boardNo=${list.boardNo}, type=${search.type}, keyword=${search.keyword})}" th:text="${list.title}"></a></td>-->
-<!--                                    <td th:text="${list.content}"></td>-->
-<!--                                    <td th:text="${list.userId}"></td>-->
-<!--                                    <td th:text="${list.regDate}"></td>-->
-<!--                                    <td th:text="${list.modDate}"></td>-->
-<!--                                    <td><a href="#" th:onclick="|javascript:del('${list.boardNo}')|" class="btn btn-danger">삭제</a></td>-->
-<!--                                </tr>-->
-<!--                                </th:block>-->
-<!--                                &lt;!&ndash;데이터가 없을 때&ndash;&gt;-->
-<!--                                <th:block th:unless="${#lists.size(list) >0}">-->
-<!--                                <tr><td colspan="6" style="text-align: center">데이터가 없다.</td></tr>-->
-<!--                                </th:block>-->
-                            </tbody>
+                            <!-- 동적 tbody -->
+                            <tbody id="boardBody"></tbody>
                         </table>
                     </div>
-                    <!-- 페이지네이션 start -->
-                    <nav id="pagiNav" aria-label="Page navigation">
-<!--                        <ul class="pagination justify-content-center">-->
-<!--                            <li class="page-item">-->
-<!--                                <a class="page-link" th:href="@{/(currentPage=${paging.firstPageNo}-1, type=${search.type}, keyword=${search.keyword})}" th:style="${paging.getFirstPageNo() == 1 ? 'display:none' : ''}">Prev</a>-->
-<!--                            </li>-->
-<!--                            <li class="page-item" id="paginate_btn" th:each="idx: ${#numbers.sequence(paging.firstPageNo, paging.lastPageNo)}" th:classappend="${paging.currentPage} == ${idx} ? active : null">-->
-<!--                                <a class="page-link" th:href="@{/(currentPage=${idx}, type=${search.type}, keyword=${search.keyword})}" th:text="${idx}"></a>-->
-<!--&lt;!&ndash;                                <a class="page-link" href="#" th:onclick="|javascript:movePage([[${idx}]])|" th:text="${idx}" style="cursor: pointer"></a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <a class="page-link" href="#" th:onclick="|javascript:test()|"  th:text="${idx}" style="cursor: pointer"></a>&ndash;&gt;-->
-<!--                            </li>-->
-<!--                            <li class="page-item">-->
-<!--                                <a class="page-link" th:href="@{/(currentPage=${paging.lastPageNo}+1, type=${search.type}, keyword=${search.keyword})}" th:style="${paging.getLastPageNo() >= 10 ? '' : 'display:none'}">Next</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-                    </nav>
-                    <!-- // 페이지네이션 end -->
+                    <!-- 동적 페이지네이션 -->
+                    <nav id="pagiNav" aria-label="Page navigation"></nav>
                     </form>
                 </div>
             <div class="input-group">
