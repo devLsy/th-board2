@@ -20,6 +20,8 @@
                                             <input class="form-control" id="userId" name="userId" type="text" placeholder="Enter your first name" />
                                             <label for="userId">id</label>
                                         </div>
+                                        <button type="button" id="idCheck" class="btn btn-info">아이디중복체크</button>
+<!--                                        <a href="#" onclick="idCheck(); return false;" class="btn btn-info">아이디중복체크</a>-->
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
@@ -63,23 +65,116 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript" type="text/javascript">
+
+    //아이디 체크 여부
+    let idCheckPass = false;
+
     $(document).ready(function () {
+
+        $("#idCheck").on("click", function () {
+
+            if ($("#userId").val() === "" || $("#userId").val() === undefined) {
+                alert("아이디를 입력하렴.");
+                $("#userId").focus();
+                return;
+            }
+        const userId = $("#userId").val();
+
+        console.log("userId : " + userId);
+
+        $.ajax({
+            url : '/idCheck/' + userId,
+            type : 'get',
+            success: function (code) {
+                if(code === 1) {
+                    alert("이미 존재하는 아이디야!");
+                    $("#userId").val("").focus();
+                    return;
+                } else {
+                    alert("오케이 가입가능한 아이디다.");
+                    idCheckPass = true;
+                    $("#userName").focus();
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+        });
+    });
 
     });
     //비밀번호 확인
     function validation() {
 
-        const firstPassword = $("#userPassword").val();
-        const secondPassword = $("#userPasswordConfirm").val();
+        const $userId = $("#userId").val();
+        const $userName = $("#userName").val();
+        const $userEmail = $("#userEmail").val();
+        const $firstPassword = $("#userPassword").val();
+        const $secondPassword = $("#userPasswordConfirm").val();
 
-        let passYn = false;
-        passYn = firstPassword === secondPassword ? true : false;
-
-        if (!passYn) {
-            alert("비밀번호가 같지 않아. 다시 입력해!");
+        //아이디
+        if ($userId === "" || $userId === undefined) {
+            alert("아이디를 입력하렴.");
+            $("#userId").focus();
             return;
+        }
+        //아이디 중복체크
+        if (!idCheckPass) {
+            alert("아이디 중복체크를 하렴.");
+            return;
+        }
+        //이름
+        if ($userName === "" || $userName === undefined) {
+            alert("이름을 입력하렴.");
+            $("#userName").focus();
+            return;
+        }
+        //이름
+        if ($userEmail === "" || $userEmail === undefined) {
+            alert("이메일을 입력하렴.");
+            $("#userEmail").focus();
+            return;
+        }
+        //비밀번호1
+        if ($firstPassword === "" || $firstPassword === undefined) {
+            alert("비밀번호를 입력하렴.");
+            $("#userPassword").focus();
+            return;
+        }
+        //비밀번호2
+        if ($secondPassword === "" || $secondPassword === undefined) {
+            alert("비밀번호 확인을 입력하렴.");
+            $("#userPasswordConfirm").focus();
+            return;
+        }
+
+        let passwordYn = false;
+        passwordYn = $firstPassword === $secondPassword ? true : false;
+
+        if (!passwordYn) {
+            alert("비밀번호가 같지 않아. 다시 입력해!");
+            $("#userPassword").focus();
+            return;
+
         } else {
-            $("#frm").submit();
+            $.ajax({
+                url : '/registerAjax',
+                type : 'post',
+                data : $("#frm").serialize(),
+                success: function (code) {
+                    console.log("code : " + code);
+                    if(code === 1) {
+                        alert("축하해. 가입이 완료 되었다.");
+                        location.href = "/login";
+                    } else {
+                        alert("가입이 안되었네? 제대로 입력해서 다시 가입해.");
+                        return;
+                    }
+                },
+                error: function (request, status, error) {
+                    console.log(error);
+                }
+            });
         }
     }
 </script>
