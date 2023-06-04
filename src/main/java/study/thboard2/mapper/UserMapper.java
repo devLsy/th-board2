@@ -13,8 +13,10 @@ public interface UserMapper {
     /* 사용자 목록 조회 */
     List<UserVo> selectUserList();
 
+    int selectIdCnt(@Param("userId") String userId);
+
     /* 사용자 정보 저장 */
-    void insertUser(UserVo userVo);
+    int insertUser(UserVo userVo);
 
     /* 사용자 정보 확인(로그인 시 활용) */
     UserVo selectByUserId(@Param("userId") String userId);

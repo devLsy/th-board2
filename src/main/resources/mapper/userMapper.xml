@@ -71,6 +71,13 @@
          WHERE USER_ID = #{userId}
     </select>
 
+    <!--아이디로 카운트 조회-->
+    <select id="selectIdCnt" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+          FROM USER_INFO
+         WHERE USER_ID = #{userId}
+    </select>
+
     <!--사용자 상세 정보-->
     <select id="selectUserDetail" parameterType="map" resultType="UserVo">
         /* 사용자 상세 정보 */

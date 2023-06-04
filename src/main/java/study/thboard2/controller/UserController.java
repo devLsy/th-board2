@@ -10,6 +10,8 @@ import study.thboard2.domain.vo.UserVo;
 import study.thboard2.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -44,6 +46,7 @@ public class UserController {
      * @param userVo
      * @return
      */
+    @ResponseBody
     @PostMapping("/register")
     public String register(@ModelAttribute UserVo userVo) {
         try {
@@ -52,6 +55,47 @@ public class UserController {
             log.info("Exception => [{}] ", e.getMessage());
         }
         return "redirect:/login";
+    }
+
+    /**
+     * 회원가입 처리(ajax)
+     * @param userVo
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/registerAjax")
+    public ResponseEntity registerAjax(@ModelAttribute UserVo userVo) throws Exception {
+
+        log.info("userVo = [{}]", userVo);
+
+        int result = userService.regUser(userVo);
+
+        if (result == 1) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(2, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * 아이디 체크
+     * @param
+     * @return
+     */
+    @GetMapping("/idCheck/{userId}")
+    @ResponseBody
+    public ResponseEntity<?> idCheck(@PathVariable String userId) throws Exception {
+
+        log.info("userId = [{}]", userId);
+        //1이면 아이디 존재, 2면 미존재
+        int cnt = userService.selectIdCnt(userId);
+
+        log.info("cnt = [{}]", cnt);
+
+        if (cnt == 1) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(2, HttpStatus.OK);
     }
 
     /**

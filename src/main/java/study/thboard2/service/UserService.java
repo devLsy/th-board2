@@ -34,10 +34,10 @@ public class UserService {
      * @throws Exception
      */
     @Transactional
-    public void regUser(UserVo userVo) throws Exception{
+    public int regUser(UserVo userVo) throws Exception{
         //비밀번호 암호화
         userVo.hashPassword(bCryptPasswordEncoder);
-        userMapper.insertUser(userVo);
+        return userMapper.insertUser(userVo);
     }
 
     /**
@@ -59,6 +59,16 @@ public class UserService {
      */
     public UserVo checkUserId(String userId) throws Exception{
         return userMapper.selectByUserId(userId);
+    }
+
+    /**
+     * 사용자 아이디로 cnt 조회
+     * @param userId
+     * @return
+     */
+    public int selectIdCnt(String userId) throws Exception{
+        int cnt = userMapper.selectIdCnt(userId);
+        return (cnt == 1) ? 1: 0;
     }
 
     /**
