@@ -101,9 +101,8 @@
                     for (let i = 0; i < list.length; i++) {
                             boardHtml += "<tr>";
                             boardHtml += "<td>";
-                            boardHtml += "<a href=/reg?boardNo=";
-                            boardHtml += list[i].boardNo + ">";
-                            boardHtml += list[i].no + "</a>";
+                            boardHtml += "<a href=/reg?boardNo=" + list[i].boardNo + ">" + list[i].no;
+                            boardHtml += "</a>";    
                             boardHtml += "</td>";
                             boardHtml += "<td>" + list[i].title;
                             boardHtml += "</td>";
