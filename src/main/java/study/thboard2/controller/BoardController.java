@@ -69,22 +69,18 @@ public class BoardController extends CommonController{
 
         Map<String, Object> map = new HashMap<>();
         //전체 게시글 수
-
-        log.info("commonVo = [{}]", commonVo);
-
         int totalCnt = boardService.getBoardCnt(commonVo);
         commonVo.setTotalCount(totalCnt);
         //페이징 처리 후 반환 객체
         PaginationInfo paging = boardService.getPaginationInfo(commonVo);
-
+        log.info("commonVo = [{}]", commonVo);
+        log.info("paging = [{}]", paging);
         commonVo.setFirstRecordIndex(paging.getFirstRecordIndex());
         commonVo.setLastRecordIndex(paging.getLastRecordIndex());
 
         List<BoardVo> boardList = boardService.getBoardList(commonVo);
 
         map.put("list", boardList);
-
-        log.info("paging = [{}]", paging);
         map.put("paging", paging);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

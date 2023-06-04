@@ -153,10 +153,11 @@
                     pageHtml += "<ul class='pagination justify-content-center'>";
 
                     if (result.paging.firstPageNo > 1) {
+                        const prev = parseInt(result.paging.firstPageNo) - 1;
                         pageHtml += "<li class='page-item'>";
-                        pageHtml += "<a class='page-link' onclick='movePage(" + result.paging.lastPageNo - 1 + ")' style='cursor: pointer'>Prex</a>";
+                        pageHtml += "<a href='#' class='page-link' onclick='movePage("+ prev +")' style='cursor: pointer'>Prev</a>";
                         pageHtml += "</li>";
-                    }   
+                    }
 
                     for (let i = result.paging.firstPageNo; i <= result.paging.lastPageNo; i++) {
                         pageHtml += "<li class='page-item'>";
@@ -170,9 +171,10 @@
                         }
                     }
 
-                    if (result.paging.currentPage === result.paging.lastPageNo) {
+                    if (result.paging.lastPageNo < result.paging.totalPageCount) {
+                        const next = parseInt(result.paging.lastPageNo) + 1;
                         pageHtml += "<li class='page-item'>";
-                        pageHtml += "<a class='page-link' onclick='movePage(" + result.paging.lastPageNo + 1 + ")' style='cursor: pointer'>Next</a>";
+                        pageHtml += "<a href='#' class='page-link' onclick='movePage("+ next +")' style='cursor: pointer'>Next</a>";
                         pageHtml += "</li>";
                     }
                     pageHtml += "</ul>";
