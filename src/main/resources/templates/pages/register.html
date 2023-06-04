@@ -153,6 +153,8 @@
 
         if (!passwordYn) {
             alert("비밀번호가 같지 않아. 다시 입력해!");
+            $("#userPasswordConfirm").val("");
+            $("#userPassword").val("");
             $("#userPassword").focus();
             return;
 

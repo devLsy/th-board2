@@ -100,7 +100,10 @@
                     //테이블 draw
                     for (let i = 0; i < list.length; i++) {
                             boardHtml += "<tr>";
-                            boardHtml += "<td>" + list[i].no;
+                            boardHtml += "<td>";
+                            boardHtml += "<a href=/reg?boardNo=";
+                            boardHtml += list[i].boardNo + ">";
+                            boardHtml += list[i].no + "</a>";
                             boardHtml += "</td>";
                             boardHtml += "<td>" + list[i].title;
                             boardHtml += "</td>";
