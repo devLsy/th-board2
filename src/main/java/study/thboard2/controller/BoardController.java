@@ -112,24 +112,6 @@ public class BoardController extends CommonController{
     }
 
     /**
-     * 게시글 등록 처리
-     * @param boardVo
-     * @param files
-     * @param br
-     * @return
-     */
-    @PostMapping("/reg")
-    public String reg(@ModelAttribute BoardVo boardVo, @RequestParam("files")List<MultipartFile> files, BindingResult br, HttpSession session) throws Exception {
-
-        UserVo userInfo = getUserSessionInfo(session);
-        boardVo.setUserId(userInfo.getUserId());
-        boardService.regBoard(boardVo, br);
-        fileService.saveFile(files, boardVo.getBoardNo(), br);
-
-        return "redirect:/";
-    }
-
-    /**
      * 게시글 등록 처리(비동기)
      * @param boardVo
      * @param files
@@ -155,21 +137,6 @@ public class BoardController extends CommonController{
     }
 
     /**
-     * 게시글 수정 처리
-     * @param boardVo
-     * @return
-     */
-    @PostMapping("/mod")
-    public String modify(@ModelAttribute BoardVo boardVo, HttpSession session) throws Exception {
-
-        UserVo userInfo = getUserSessionInfo(session);
-        boardVo.setUserId(userInfo.getUserId());
-        boardService.modifyBoard(boardVo);
-
-        return "redirect:/";
-    }
-
-    /**
      * 게시글 수정(ajax)
      * @param boardVo
      * @return
@@ -187,15 +154,20 @@ public class BoardController extends CommonController{
     }
 
     /**
-     * 게시글 삭제 처리
+     * 게시글 삭제 처리(ajax)
      * @param boardNo
      * @return
      */
-    @PostMapping("/del")
-    public String del(@RequestParam Integer boardNo) throws Exception {
+    @PostMapping("/delAjax/{boardNo}")
+    public ResponseEntity<?> delAjax(@PathVariable Integer boardNo) throws Exception {
 
+        log.info("boardNo = [{}]", boardNo);
+        //1이면 성공, 2면 실패
         int result = boardService.deleteBoard(boardNo);
-        log.info("result = [{}]", result);
-        return "redirect:/";
+
+        if (result == 1) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(2, HttpStatus.OK);
     }
 }

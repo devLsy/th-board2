@@ -27,7 +27,7 @@ function getList(params, currentPage) {
                     boardHtml += "<td>" + list[i].modDate;
                     boardHtml += "</td>";
                     boardHtml += "<td>";
-                    boardHtml += "<a href='#' class='btn btn-danger' onclick='del(" + list[i].boardNo + ");'>삭제";
+                    boardHtml += "<a href='#' class='btn btn-danger' onclick='delAjax(" + list[i].boardNo + ");'>삭제";
                     boardHtml += "</a>";
                     boardHtml += "</td>";
                     boardHtml += "</tr>";
@@ -69,6 +69,28 @@ function getList(params, currentPage) {
             $("#pagiNav").html(pageHtml);
 
 
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    });
+}
+
+//게시글 삭제(ajax)
+function delAjax(no) {
+
+    $.ajax({
+        url : '/delAjax/' + no,
+        type : 'post',
+        success: function (code) {
+            console.log("code : " + code);
+            if(code === 1) {
+                alert("게시글이 삭제 되었어.");
+                location.href = "/";
+            } else {
+                alert("시스템 에러다. 삭제가 안되었네?");
+                location.href = "/";
+            }
         },
         error: function (request, status, error) {
             console.log(error);
