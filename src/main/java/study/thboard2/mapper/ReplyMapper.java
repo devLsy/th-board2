@@ -28,5 +28,5 @@ public interface ReplyMapper {
     void updateReply(ReplyVo replyVo);
 
     /*댓글 삭제*/
-    void deleteReply(@Param("replyNo") Integer replyNo, @Param("boardNo") Integer boardNo);
+    int deleteReply(@Param("replyNo") Integer replyNo, @Param("boardNo") Integer boardNo);
 }

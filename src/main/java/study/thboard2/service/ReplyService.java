@@ -67,10 +67,12 @@ public class ReplyService extends CommonService{
      * 댓글 삭제
      * @param boardNo
      * @param replyNo
+     * @return
+     * @throws Exception
      */
     @Transactional
-    public void removeReply(Integer boardNo, Integer replyNo) throws Exception{
-        replyMapper.deleteReply(replyNo, boardNo);
+    public int removeReply(Integer boardNo, Integer replyNo) throws Exception{
+        return replyMapper.deleteReply(replyNo, boardNo);
     }
 
 

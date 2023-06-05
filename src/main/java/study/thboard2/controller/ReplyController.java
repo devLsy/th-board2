@@ -92,10 +92,14 @@ public class ReplyController {
      * @param replyNo
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "del/{boardNo}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> delReply(@PathVariable Integer boardNo, @RequestParam Integer replyNo) {
         try {
-            replyService.removeReply(boardNo, replyNo);
+            int result = replyService.removeReply(boardNo, replyNo);
+            if (result == 1) {
+                return new ResponseEntity<>(1, HttpStatus.OK);
+            }
         } catch (Exception e) {
             log.info("Exception => [{}] ", e.getMessage());
         }

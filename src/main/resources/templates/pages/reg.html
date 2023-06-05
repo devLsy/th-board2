@@ -258,8 +258,8 @@
                 ansync: false,
                 success: function (result) {
                     if (result === 1) {
-                        alert("삭제되었습니다.");
-                        getReplyList();
+                        alert("삭제되었습니다.");  
+                        location.href = "/reg?boardNo=" + boardNo;
                     }
                 },
                 error: function (request, status, error) {
