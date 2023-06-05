@@ -79,21 +79,26 @@ function getList(params, currentPage) {
 //게시글 삭제(ajax)
 function delAjax(no) {
 
-    $.ajax({
-        url : '/delAjax/' + no,
-        type : 'post',
-        success: function (code) {
-            console.log("code : " + code);
-            if(code === 1) {
-                alert("게시글이 삭제 되었어.");
-                location.href = "/";
-            } else {
-                alert("시스템 에러다. 삭제가 안되었네?");
-                location.href = "/";
+    if (!confirm("정말 삭제할거야? 후회 안하지?")) {
+        return;
+        
+    } else {
+        $.ajax({
+            url : '/delAjax/' + no,
+            type : 'post',
+            success: function (code) {
+                console.log("code : " + code);
+                if(code === 1) {
+                    alert("게시글이 삭제 되었어.");
+                    location.href = "/";
+                } else {
+                    alert("시스템 에러다. 삭제가 안되었네?");
+                    location.href = "/";
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
             }
-        },
-        error: function (request, status, error) {
-            console.log(error);
-        }
-    });
+        });
+    }
 }
