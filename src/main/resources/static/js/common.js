@@ -90,10 +90,10 @@ function delAjax(no) {
                 console.log("code : " + code);
                 if(code === 1) {
                     alert("게시글이 삭제 되었어.");
-                    location.href = "/";
+                    getList(defaultParam, 1);
                 } else {
                     alert("시스템 에러다. 삭제가 안되었네?");
-                    location.href = "/";
+                    getList(defaultParam, 1);
                 }
             },
             error: function (request, status, error) {
