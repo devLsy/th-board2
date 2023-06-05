@@ -82,6 +82,7 @@
 
         //게시글 삭제
         function del(no) {
+            console.log("boardNo : " + no);
             const boardNo = $("<input>").attr("type", "hidden").attr("name", "boardNo").val(no);
             $("#frm").append(boardNo).submit();
         }

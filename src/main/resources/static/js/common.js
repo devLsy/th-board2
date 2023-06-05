@@ -26,6 +26,10 @@ function getList(params, currentPage) {
                     boardHtml += "</td>";
                     boardHtml += "<td>" + list[i].modDate;
                     boardHtml += "</td>";
+                    boardHtml += "<td>";
+                    boardHtml += "<a href='#' class='btn btn-danger' onclick='del(" + list[i].boardNo + ");'>삭제";
+                    boardHtml += "</a>";
+                    boardHtml += "</td>";
                     boardHtml += "</tr>";
             }
             $("#boardBody").html(boardHtml);
