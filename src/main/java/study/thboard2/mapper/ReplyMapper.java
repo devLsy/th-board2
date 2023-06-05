@@ -22,7 +22,7 @@ public interface ReplyMapper {
     ReplyVo selectReplyDetail(@Param("replyNo") Integer replyNo, @Param("boardNo") Integer boardNo);
 
     /*댓글 작성*/
-    void insertReply(ReplyVo replyVo);
+    int insertReply(ReplyVo replyVo);
 
     /*댓글 수정*/
     void updateReply(ReplyVo replyVo);

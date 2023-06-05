@@ -30,6 +30,7 @@
               , T2.USE_YN AS userYn
               , TO_CHAR(T2.REG_DATE, 'YYYY-MM-DD') AS regDate
               , NVL(TO_CHAR(T2.MOD_DATE, 'YYYY-MM-DD'),'수정사항 없음') AS modDate
+              , T2.REPLY_CNT AS replyCnt
            FROM
                (
                     SELECT ROWNUM AS no
@@ -40,6 +41,7 @@
                          , T1.USE_YN
                          , T1.REG_DATE
                          , T1.MOD_DATE
+                         , T1.REPLY_CNT
                       FROM
                               ( SELECT BOARD_NO
                                      , TITLE
@@ -48,6 +50,7 @@
                                      , USE_YN
                                      , REG_DATE
                                      , MOD_DATE
+                                     , REPLY_CNT
                                   FROM BOARD_INFO
                                  WHERE 1=1
                                    AND USE_YN = 'Y'
@@ -156,5 +159,13 @@
               , SYSDATE
             )
     </insert>
+
+    <!--댓글 cnt 업데이트-->
+    <update id="updateReplyCnt" parameterType="map">
+        /* 댓글 cnt 업데이트 */
+        UPDATE BOARD_INFO
+           SET REPLY_CNT = (SELECT COUNT(*) FROM REPLY_INFO WHERE BOARD_NO = #{boardNo})
+         WHERE BOARD_NO = #{boardNo}
+    </update>
 
 </mapper>

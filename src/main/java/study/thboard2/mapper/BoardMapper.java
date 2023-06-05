@@ -29,6 +29,9 @@ public interface BoardMapper {
     /*게시글 수정*/
     int updateBoard(BoardVo boardVo);
 
+    /* 댓글 cnt 업데이트 */
+    int updateReplyCnt(@Param("boardNo") Integer boardNo);
+
     /*게시글 삭제*/
     int deleteBoard(@Param("boardNo") Integer boardNo);
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.thboard2.domain.vo.ReplyVo;
+import study.thboard2.mapper.BoardMapper;
 import study.thboard2.mapper.ReplyMapper;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ReplyService extends CommonService{
 
     private final ReplyMapper replyMapper;
+    private final BoardMapper boardMapper;
 
     /**
      * 댓글 목록 조회
@@ -51,7 +53,8 @@ public class ReplyService extends CommonService{
      */
     @Transactional
     public void regReply(ReplyVo replyVo) throws Exception{
-        replyMapper.insertReply(replyVo);
+        int result = replyMapper.insertReply(replyVo);
+        if(result == 1) boardMapper.updateReplyCnt(replyVo.getBoardNo());
     }
 
     /**

@@ -13,10 +13,12 @@ function getList(params, currentPage) {
             for (let i = 0; i < list.length; i++) {
                     boardHtml += "<tr>";
                     boardHtml += "<td>";
-                    boardHtml += "<a href=/reg?boardNo=" + list[i].boardNo + ">" + list[i].no;
+                    boardHtml += list[i].no;
                     boardHtml += "</a>";
                     boardHtml += "</td>";
-                    boardHtml += "<td>" + list[i].title;
+                    boardHtml += "<td>";
+                    boardHtml += "<a href=/reg?boardNo=" + list[i].boardNo + " style='color: #0a53be; text-decoration: none;'>" + list[i].title + "[" + list[i].replyCnt + "]";
+                    boardHtml += "</a>";
                     boardHtml += "</td>";
                     boardHtml += "<td>" + list[i].content;
                     boardHtml += "</td>";
