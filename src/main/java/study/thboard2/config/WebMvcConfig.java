@@ -15,8 +15,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         LoginInterceptor loginInterceptor = loginInterceptor();
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/log**", "/reg**", "/idCheck/**", "/mod**", "/reply/**", "/err**", "/css/**", "/assets/**", "/js/**");
-    }   
+                .excludePathPatterns("/log**", "/reg**", "/idCheck/**", "/mod**", "/download/**", "/reply/**", "/err**", "/css/**", "/assets/**", "/js/**");
+    }
 
     @Bean
     public LoginInterceptor loginInterceptor() {
