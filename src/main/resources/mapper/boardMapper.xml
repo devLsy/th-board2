@@ -66,6 +66,7 @@
           FROM BOARD_INFO
          <where>
          <include refid="appendSearch"/>
+            AND USE_YN = 'Y'
          </where>
     </select>
 
