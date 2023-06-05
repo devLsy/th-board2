@@ -20,4 +20,6 @@ public class BoardVo extends CommonVo{
     private String content;                     //내용
 
     private char useYn;                         //사용여부
+
+    private int replyCnt;               //댓글 개수
 }
