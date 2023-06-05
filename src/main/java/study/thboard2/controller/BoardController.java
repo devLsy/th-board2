@@ -52,7 +52,7 @@ public class BoardController extends CommonController{
         mv.addObject("search", commonVo);
         mv.addObject("list", boardList);
         mv.addObject("paging", paging);
-
+        mv.addObject("totalCnt", totalCnt);
         return mv;
     }
 
@@ -82,6 +82,7 @@ public class BoardController extends CommonController{
 
         map.put("list", boardList);
         map.put("paging", paging);
+        map.put("totalCnt", totalCnt);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 

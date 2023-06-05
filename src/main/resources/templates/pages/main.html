@@ -23,7 +23,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        게시글이야.
+                        <span th:text=" 'total: ' + ${totalCnt} + '건'"></span>
                     </div>
                     <form id="frm" action="/del" method="post">
                     <div class="card-body">
